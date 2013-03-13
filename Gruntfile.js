@@ -1,4 +1,4 @@
-/*global module:false*/
+/*global module:false, require:true, console:true */
 module.exports = function(grunt) {
 
   grunt.loadNpmTasks('grunt-contrib-jshint');
@@ -10,7 +10,7 @@ module.exports = function(grunt) {
   var banner = [
         '/*! <%= pkg.name %> - v<%= pkg.version %> - ',
         '<%= grunt.template.today("yyyy-mm-dd") %> - <%= pkg.homepage %> */\n'
-      ].join('')
+      ].join('');
 
   // Project configuration.
   grunt.initConfig({
@@ -103,7 +103,7 @@ module.exports = function(grunt) {
         {expand: true, flatten: true, src: ['components/rekapi-controls/lib/font-awesome/font/*'], dest: 'dist/font/'},
         {src: ['components/rekapi-controls/lib/font-awesome/css/font-awesome.css'], dest: 'dist/asset/font-awesome.css'},
         {src: ['components/rekapi-controls/dist/dragon-bundle.js'], dest: 'dist/asset/dragon-bundle.js'},
-        {src: ['components/rekapi-controls/dist/rekapi-controls.min.js'], dest: 'dist/asset/rekapi-controls.min.js'},
+        {src: ['components/rekapi-controls/dist/rekapi-controls.min.js'], dest: 'dist/asset/rekapi-controls.min.js'}
         ]
       }
     },
@@ -151,6 +151,30 @@ module.exports = function(grunt) {
       'concat:withExtensions',
       'uglify:standardTarget',
       'uglify:underscoreBundle',
-      'concat:withExtensionsDebug']);
+      'concat:withExtensionsDebug',
+      'doc']);
+
+  grunt.registerTask('doc', 'Generate API documentation.', function () {
+    var fs = require('fs');
+    var exec = require('child_process').exec;
+    var exportToPath = 'dist/doc/';
+
+    if (!fs.existsSync(exportToPath)) {
+      fs.mkdirSync(exportToPath);
+    }
+
+    var child = exec(
+      'dox-foundation -t Rekapi < dist/rekapi.js > '
+        + exportToPath + 'index.html',
+
+      function (error, stdout, stderr) {
+        console.log('stdout: ' + stdout);
+        console.log('stderr: ' + stderr);
+        if (error !== null) {
+          console.log('exec error: ' + error);
+        }
+    });
+
+  });
 
 };

@@ -22,7 +22,7 @@ if (typeof KAPI_DEBUG === 'undefined') {
 // REKAPI-GLOBAL METHODS
 // These are global in development, but get wrapped in a closure at build-time.
 
-/**
+/*!
  * Fire an event bound to a Kapi.
  * @param {Kapi} kapi
  * @param {string} eventName
@@ -36,7 +36,7 @@ function fireEvent (kapi, eventName, _, opt_data) {
 }
 
 
-/**
+/*!
  * @param {Kapi} kapi
  */
 function recalculateAnimationLength (kapi) {
@@ -50,7 +50,7 @@ function recalculateAnimationLength (kapi) {
 }
 
 
-/**
+/*!
  * Does nothing.  Absolutely nothing at all.
  */
 function noop () {
@@ -67,7 +67,7 @@ var rekapiCore = function (context, _, Tweenable) {
   var Fn = Function, GLOBAL = new Fn('return this')();
 
 
-  /**
+  /*!
    * Determines which iteration of the loop the animation is currently in.
    * @param {Kapi} kapi
    * @param {number} timeSinceStart
@@ -79,7 +79,7 @@ var rekapiCore = function (context, _, Tweenable) {
   }
 
 
-  /**
+  /*!
    * Calculate how many milliseconds since the animation began.
    * @param {Kapi} kapi
    * @return {number}
@@ -113,7 +113,7 @@ var rekapiCore = function (context, _, Tweenable) {
   }
 
 
-  /**
+  /*!
    * Calculate how far in the animation loop `kapi` is, in milliseconds, based
    * on the current time.  Also overflows into a new loop if necessary.
    * @param {Kapi} kapi
@@ -132,7 +132,7 @@ var rekapiCore = function (context, _, Tweenable) {
   }
 
 
-  /**
+  /*!
    * Calculate the position and state for a given millisecond.
    * Also updates the state internally and accounts for how many loop
    * iterations the animation runs for.
@@ -148,7 +148,7 @@ var rekapiCore = function (context, _, Tweenable) {
   }
 
 
-  /**
+  /*!
    * Calculate how far in the animation loop `kapi` is, in milliseconds, and
    * update based on that time.
    * @param {Kapi} kapi
@@ -158,7 +158,7 @@ var rekapiCore = function (context, _, Tweenable) {
   }
 
 
-  /**
+  /*!
    * This is the heartbeat of an animation.  Updates the state and then calls
    * itself based on the framerate of the supplied Kapi.
    * @param {Kapi} kapi
@@ -180,7 +180,7 @@ var rekapiCore = function (context, _, Tweenable) {
   }
 
 
-  /**
+  /*!
    * @param {number}
    * @return {Function}
    */
@@ -205,7 +205,7 @@ var rekapiCore = function (context, _, Tweenable) {
   }
 
 
-  /**
+  /*!
    * @param {number}
    * @return {Function}
    */
@@ -227,7 +227,7 @@ var rekapiCore = function (context, _, Tweenable) {
   }
 
 
-  /**
+  /*!
    * Cancels an update loop.  This abstraction is needed to get around the fact
    * that in IE, clearTimeout is not technically a function
    * (https://twitter.com/kitcambridge/status/206655060342603777) and thus
@@ -256,6 +256,11 @@ var rekapiCore = function (context, _, Tweenable) {
 
 
   /**
+   * Rekapi constructor.  Valid values for opt_config are:
+   *
+   * - fps (_number_): The frames per second at which the animation updates.  The default value is 30.
+   * - context (_Object_): The context that the animation will run in.  Can be any type of `Object`; gets used by the renderer and inherited by the `Kapi.Actor`s as they are added to the animation.  This isn't always needed, it usually just applies to `<canvas>` animations.  See the documentation on the [`<canvas>` extension](https://github.com/jeremyckahn/rekapi/tree/master/ext/canvas) for more info.
+
    * @param {Object} opt_config
    * @constructor
    */
