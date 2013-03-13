@@ -1,5 +1,5 @@
 /*! Rekapi - v0.13.10 - 2013-03-12 - http://rekapi.com */
-/**
+/*!
  * Rekapi - Rewritten Kapi.
  * https://github.com/jeremyckahn/rekapi
  *
@@ -89,7 +89,7 @@ var rekapiCore = function (context, _, Tweenable) {
   }
 
 
-  /**
+  /*!
    * Determines is the animation is complete or not.
    * @param {Kapi} kapi
    * @param {number} currentLoopIteration
@@ -100,7 +100,7 @@ var rekapiCore = function (context, _, Tweenable) {
   }
 
 
-  /**
+  /*!
    * Stops the animation if the animation is complete.
    * @param {Kapi} kapi
    * @param {number} currentLoopIteration
@@ -258,13 +258,14 @@ var rekapiCore = function (context, _, Tweenable) {
   /**
    * Rekapi constructor.  Valid values for opt_config are:
    *
-   * - fps (_number_): The frames per second at which the animation updates.  The default value is 30.
-   * - context (_Object_): The context that the animation will run in.  Can be any type of `Object`; gets used by the renderer and inherited by the `Kapi.Actor`s as they are added to the animation.  This isn't always needed, it usually just applies to `<canvas>` animations.  See the documentation on the [`<canvas>` extension](https://github.com/jeremyckahn/rekapi/tree/master/ext/canvas) for more info.
-
+   * - __fps__ (_number_): The frames per second at which the animation updates.  The default value is 30.
+   * - __context__ (_Object_): The context that the animation will run in.  Can be any type of `Object`; gets used by the renderer and inherited by the `Kapi.Actor`s as they are added to the animation.  This isn't always needed, it usually just applies to `<canvas>` animations.  See the documentation on the [`<canvas>` extension](https://github.com/jeremyckahn/rekapi/tree/master/ext/canvas) for more info.
+   *
+   * __[Example](../../docs/examples/kapi.html)__
    * @param {Object} opt_config
    * @constructor
    */
-  var Kapi = context.Kapi || function Kapi (opt_config) {
+  function Kapi (opt_config) /*!*/ {
     this.config = opt_config || {};
     this.context = this.config.context || {};
     this._actors = {};
@@ -311,21 +312,24 @@ var rekapiCore = function (context, _, Tweenable) {
     }, this);
 
     return this;
-  };
+  }
 
 
-  /**
+  /*!
    * @type {Object.<function>} Contains the context init function to be called
-   * in the Kapi contstructor.
+   * in the Kapi constructor.
    */
   Kapi.prototype._contextInitHook = {};
 
 
   /**
+   * Add a `Kapi.Actor` to the animation.
+   *
+   * __[Example](../../docs/examples/add_actor.html)__
    * @param {Kapi.Actor} actor
    * @return {Kapi}
    */
-  Kapi.prototype.addActor = function (actor) {
+  Kapi.prototype.addActor = function (actor) /*!*/ {
     // You can't add an actor more than once.
     if (!_.contains(this._actors, actor)) {
       if (!actor.context()) {
@@ -346,35 +350,47 @@ var rekapiCore = function (context, _, Tweenable) {
 
 
   /**
+   * Retrieve an `Actor` from the `Kapi` instance by its ID.  All `Actor`'s have an `id` property.
+   *
+   * __[Example](../../docs/examples/get_actor.html)__
    * @param {number} actorId
    * @return {Kapi.Actor}
    */
-  Kapi.prototype.getActor = function (actorId) {
+  Kapi.prototype.getActor = function (actorId) /*!*/ {
     return this._actors[actorId];
   };
 
 
   /**
+   * Retrieve an `Actor` from the `Kapi` instance by its ID.  All `Actor`'s have an `id` property.
+   *
+   * __[Example](../../docs/examples/get_actor_ids.html)__
    * @returns {Array}
    */
-  Kapi.prototype.getActorIds = function () {
+  Kapi.prototype.getActorIds = function () /*!*/ {
     return _.pluck(this._actors, 'id');
   };
 
 
   /**
+   * Retrieve all `Actor`s in a `Kapi` instance as an Object.  Actor IDs correspond to the property names of the returned Object.
+   *
+   * __[Example](../../docs/examples/get_all_actors.html)__
    * @returns {Array}
    */
-  Kapi.prototype.getAllActors = function () {
+  Kapi.prototype.getAllActors = function () /*!*/ {
     return _.clone(this._actors);
   };
 
 
   /**
+   * Remove `actor` from the animation.  This does not destroy `actor`, it only removes the link between `actor` and the `Kapi` instance.
+   *
+   * __[Example](../../docs/examples/remove_actor.html)__
    * @param {Kapi.Actor} actor
    * @return {Kapi}
    */
-  Kapi.prototype.removeActor = function (actor) {
+  Kapi.prototype.removeActor = function (actor) /*!*/ {
     delete this._actors[actor.id];
     delete actor.kapi;
     actor.teardown();
@@ -387,10 +403,13 @@ var rekapiCore = function (context, _, Tweenable) {
 
 
   /**
+   * Play the animation on a loop, either a set amount of times or infinitely.  If `opt_howManyTimes` is omitted, the animation will loop infinitely.
+   *
+   * __[Example](../../docs/examples/play.html)__
    * @param {number} opt_howManyTimes
    * @return {Kapi}
    */
-  Kapi.prototype.play = function (opt_howManyTimes) {
+  Kapi.prototype.play = function (opt_howManyTimes) /*!*/ {
     cancelLoop(this);
 
     if (this._playState === playState.PAUSED) {
