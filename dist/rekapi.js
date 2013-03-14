@@ -1,4 +1,4 @@
-/*! Rekapi - v0.13.10 - 2013-03-12 - http://rekapi.com */
+/*! Rekapi - v0.13.10 - 2013-03-13 - http://rekapi.com */
 /*!
  * Rekapi - Rewritten Kapi.
  * https://github.com/jeremyckahn/rekapi
@@ -365,7 +365,7 @@ var rekapiCore = function (context, _, Tweenable) {
    * Retrieve an `Actor` from the `Kapi` instance by its ID.  All `Actor`'s have an `id` property.
    *
    * __[Example](../../docs/examples/get_actor_ids.html)__
-   * @returns {Array}
+   * @return {Array}
    */
   Kapi.prototype.getActorIds = function () /*!*/ {
     return _.pluck(this._actors, 'id');
@@ -376,7 +376,7 @@ var rekapiCore = function (context, _, Tweenable) {
    * Retrieve all `Actor`s in a `Kapi` instance as an Object.  Actor IDs correspond to the property names of the returned Object.
    *
    * __[Example](../../docs/examples/get_all_actors.html)__
-   * @returns {Array}
+   * @return {Array}
    */
   Kapi.prototype.getAllActors = function () /*!*/ {
     return _.clone(this._actors);
@@ -430,11 +430,14 @@ var rekapiCore = function (context, _, Tweenable) {
 
 
   /**
+   * Move to a specific millisecond on the timeline and play from there. `opt_howManyTimes` works as it does in `play()`.
+   *
+   * __[Example](../../docs/examples/play_from.html)__
    * @param {number} millisecond
    * @param {number} opt_howManyTimes
    * @return {Kapi}
    */
-  Kapi.prototype.playFrom = function (millisecond, opt_howManyTimes) {
+  Kapi.prototype.playFrom = function (millisecond, opt_howManyTimes) /*!*/ {
     this.play(opt_howManyTimes);
     this._loopTimestamp = now() - millisecond;
 
@@ -443,18 +446,24 @@ var rekapiCore = function (context, _, Tweenable) {
 
 
   /**
+   * Play from the last frame that was drawn with `render()`. `opt_howManyTimes` works as it does in `play()`.
+   *
+   * __[Example](../../docs/examples/play_from_current.html)__
    * @param {number} opt_howManyTimes
    * @return {Kapi}
    */
-  Kapi.prototype.playFromCurrent = function (opt_howManyTimes) {
+  Kapi.prototype.playFromCurrent = function (opt_howManyTimes) /*!*/ {
     return this.playFrom(this._lastUpdatedMillisecond, opt_howManyTimes);
   };
 
 
   /**
+   * Pause the animation.  A "paused" animation can be resumed from where it left off with `play()`.
+   *
+   * __[Example](../../docs/examples/pause.html)__
    * @return {Kapi}
    */
-  Kapi.prototype.pause = function () {
+  Kapi.prototype.pause = function () /*!*/ {
     if (this._playState === playState.PAUSED) {
       return this;
     }
@@ -471,9 +480,12 @@ var rekapiCore = function (context, _, Tweenable) {
 
 
   /**
+   * Stop the animation.  A "stopped" animation will start from the beginning if `play()` is called upon it again.
+   *
+   * __[Example](../../docs/examples/stop.html)__
    * @return {Kapi}
    */
-  Kapi.prototype.stop = function () {
+  Kapi.prototype.stop = function () /*!*/ {
     this._playState = playState.STOPPED;
     cancelLoop(this);
 
@@ -490,42 +502,57 @@ var rekapiCore = function (context, _, Tweenable) {
 
 
   /**
+   * Return whether or not the animation is playing (meaning not paused or stopped).
+   *
+   * __[Example](../../docs/examples/is_playing.html)__
    * @return {boolean}
    */
-  Kapi.prototype.isPlaying = function () {
+  Kapi.prototype.isPlaying = function () /*!*/ {
     return this._playState === playState.PLAYING;
   };
 
 
   /**
+   * Return the length of the animation, in milliseconds.
+   *
+   * __[Example](../../docs/examples/animation_length.html)__
    * @return {number}
    */
-  Kapi.prototype.animationLength = function () {
+  Kapi.prototype.animationLength = function () /*!*/ {
     return this._animationLength;
   };
 
 
   /**
+   * Return the normalized (between 0 and 1) timeline position that was last calculated.
+   *
+   * __[Example](../../docs/examples/last_position_rendered.html)__
    * @return {number}
    */
-  Kapi.prototype.lastPositionUpdated = function () {
+  Kapi.prototype.lastPositionUpdated = function () /*!*/ {
     return (this._lastUpdatedMillisecond / this._animationLength);
   };
 
 
   /**
+   * Return the number of `Actor`s in the animation.
+   *
+   * __[Example](../../docs/examples/actor_count.html)__
    * @return {number}
    */
-  Kapi.prototype.actorCount = function () {
+  Kapi.prototype.actorCount = function () /*!*/ {
     return _.size(this._actors);
   };
 
 
   /**
+   * Get and optionally set the framerate of the animation.  There's generally no point in going above 60.
+   *
+   * __[Example](../../docs/examples/framerate.html)__
    * @param {number} opt_newFramerate
    * @return {number}
    */
-  Kapi.prototype.framerate = function (opt_newFramerate) {
+  Kapi.prototype.framerate = function (opt_newFramerate) /*!*/ {
     if (opt_newFramerate) {
       this.config.fps = opt_newFramerate;
       this._scheduleUpdate = getUpdateMethod(this.config.fps);
@@ -537,10 +564,13 @@ var rekapiCore = function (context, _, Tweenable) {
 
 
   /**
+   * Update the position of all the `Actor`s to `opt_millisecond`.  If `opt_millisecond` is `undefined`, update to the last milliscond that the animation was updated to (it's a re-update).
+   *
+   * __[Example](../../docs/examples/update.html)__
    * @param {number=} opt_millisecond
    * @return {Kapi}
    */
-  Kapi.prototype.update = function (opt_millisecond) {
+  Kapi.prototype.update = function (opt_millisecond) /*!*/ {
     if (opt_millisecond === undefined) {
       opt_millisecond = this._lastUpdatedMillisecond;
     }
@@ -560,11 +590,24 @@ var rekapiCore = function (context, _, Tweenable) {
 
 
   /**
+   * Bind an handler function to a Kapi event.  Possible events include:
+   *
+   * - __animationComplete__: Fires when all animations loops have completed.
+   * - __playStateChange__: Fires when the animation is played, paused, or stopped.
+   * - __play__: Fires when the animation is `play()`ed.
+   * - __pause__: Fires when the animation is `pause()`d.
+   * - __stop__: Fires when the animation is `stop()`ped.
+   * - __beforeUpdate__: Fires each frame before all Actors are updated.
+   * - __afterUpdate__: Fires each frame after all Actors are updated.
+   * - __addActor__: Fires when an Actor is added.
+   * - __removeActor__: Fires when an Actor is removed.
+   *
+   * __[Example](../../docs/examples/bind.html)__
    * @param {string} eventName
    * @param {Function} handler
    * @return {Kapi}
    */
-  Kapi.prototype.on = function (eventName, handler) {
+  Kapi.prototype.on = function (eventName, handler) /*!*/ {
     if (!this._events[eventName]) {
       return;
     }
@@ -576,11 +619,14 @@ var rekapiCore = function (context, _, Tweenable) {
 
 
   /**
+   * Unbind `opt_handler` from a Kapi event.  If `opt_handler` is omitted, all handler functions bound to `eventName` are unbound.  Valid events correspond to the list under `bind()`.
+   *
+   * __[Example](../../docs/examples/unbind.html)__
    * @param {string} eventName
    * @param {Function} opt_handler
    * @return {Kapi}
    */
-  Kapi.prototype.off = function (eventName, opt_handler) {
+  Kapi.prototype.off = function (eventName, opt_handler) /*!*/ {
     if (!this._events[eventName]) {
       return;
     }
@@ -597,9 +643,12 @@ var rekapiCore = function (context, _, Tweenable) {
 
 
   /**
+   * Export the current state of the animation into a serializable Object.
+   *
+   * __[Example](../../dos/examples/export_timeline.html)__
    * @return {Object}
    */
-  Kapi.prototype.exportTimeline = function () {
+  Kapi.prototype.exportTimeline = function () /*!*/ {
     var exportData = {
       'duration': this._animationLength
       ,'actors': {}

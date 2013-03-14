@@ -28,132 +28,53 @@ code {
 
 <p><strong><a href="../../docs/examples/add_actor.html">Example</a></strong></p></div><pre><code class="language-javascript">Kapi.prototype.addActor = function (actor)</code></pre></div><div class="comment"><div class="label radius ctx-type">method</div><h1 id="getActor">getActor</h1><h5 class="subheader">Kapi.prototype.getActor()</h5><div class="tags"><ul class="no-bullet"><li><strong>@param: </strong><span class="types"> {number} </span><span class="name">actorId </span></li><li><strong>@return: </strong><span class="types"> {Kapi.Actor} </span></li></ul></div><div class="description"><p>Retrieve an <code>Actor</code> from the <code>Kapi</code> instance by its ID.  All <code>Actor</code>'s have an <code>id</code> property.</p>
 
-<p><strong><a href="../../docs/examples/get_actor.html">Example</a></strong></p></div><pre><code class="language-javascript">Kapi.prototype.getActor = function (actorId)</code></pre></div><div class="comment"><div class="label radius ctx-type">method</div><h1 id="getActorIds">getActorIds</h1><h5 class="subheader">Kapi.prototype.getActorIds()</h5><div class="tags"><ul class="no-bullet"><li><strong>@returns: </strong></li></ul></div><div class="description"><p>Retrieve an <code>Actor</code> from the <code>Kapi</code> instance by its ID.  All <code>Actor</code>'s have an <code>id</code> property.</p>
+<p><strong><a href="../../docs/examples/get_actor.html">Example</a></strong></p></div><pre><code class="language-javascript">Kapi.prototype.getActor = function (actorId)</code></pre></div><div class="comment"><div class="label radius ctx-type">method</div><h1 id="getActorIds">getActorIds</h1><h5 class="subheader">Kapi.prototype.getActorIds()</h5><div class="tags"><ul class="no-bullet"><li><strong>@return: </strong><span class="types"> {Array} </span></li></ul></div><div class="description"><p>Retrieve an <code>Actor</code> from the <code>Kapi</code> instance by its ID.  All <code>Actor</code>'s have an <code>id</code> property.</p>
 
-<p><strong><a href="../../docs/examples/get_actor_ids.html">Example</a></strong></p></div><pre><code class="language-javascript">Kapi.prototype.getActorIds = function ()</code></pre></div><div class="comment"><div class="label radius ctx-type">method</div><h1 id="getAllActors">getAllActors</h1><h5 class="subheader">Kapi.prototype.getAllActors()</h5><div class="tags"><ul class="no-bullet"><li><strong>@returns: </strong></li></ul></div><div class="description"><p>Retrieve all <code>Actor</code>s in a <code>Kapi</code> instance as an Object.  Actor IDs correspond to the property names of the returned Object.</p>
+<p><strong><a href="../../docs/examples/get_actor_ids.html">Example</a></strong></p></div><pre><code class="language-javascript">Kapi.prototype.getActorIds = function ()</code></pre></div><div class="comment"><div class="label radius ctx-type">method</div><h1 id="getAllActors">getAllActors</h1><h5 class="subheader">Kapi.prototype.getAllActors()</h5><div class="tags"><ul class="no-bullet"><li><strong>@return: </strong><span class="types"> {Array} </span></li></ul></div><div class="description"><p>Retrieve all <code>Actor</code>s in a <code>Kapi</code> instance as an Object.  Actor IDs correspond to the property names of the returned Object.</p>
 
 <p><strong><a href="../../docs/examples/get_all_actors.html">Example</a></strong></p></div><pre><code class="language-javascript">Kapi.prototype.getAllActors = function ()</code></pre></div><div class="comment"><div class="label radius ctx-type">method</div><h1 id="removeActor">removeActor</h1><h5 class="subheader">Kapi.prototype.removeActor()</h5><div class="tags"><ul class="no-bullet"><li><strong>@param: </strong><span class="types"> {Kapi.Actor} </span><span class="name">actor </span></li><li><strong>@return: </strong><span class="types"> {Kapi} </span></li></ul></div><div class="description"><p>Remove <code>actor</code> from the animation.  This does not destroy <code>actor</code>, it only removes the link between <code>actor</code> and the <code>Kapi</code> instance.</p>
 
 <p><strong><a href="../../docs/examples/remove_actor.html">Example</a></strong></p></div><pre><code class="language-javascript">Kapi.prototype.removeActor = function (actor)</code></pre></div><div class="comment"><div class="label radius ctx-type">method</div><h1 id="play">play</h1><h5 class="subheader">Kapi.prototype.play()</h5><div class="tags"><ul class="no-bullet"><li><strong>@param: </strong><span class="types"> {number} </span><span class="name">opt_howManyTimes </span></li><li><strong>@return: </strong><span class="types"> {Kapi} </span></li></ul></div><div class="description"><p>Play the animation on a loop, either a set amount of times or infinitely.  If <code>opt_howManyTimes</code> is omitted, the animation will loop infinitely.</p>
 
-<p><strong><a href="../../docs/examples/play.html">Example</a></strong></p></div><pre><code class="language-javascript">Kapi.prototype.play = function (opt_howManyTimes)</code></pre></div><div class="comment"><div class="label radius ctx-type">method</div><h1 id="playFrom">playFrom</h1><h5 class="subheader">Kapi.prototype.playFrom()</h5><div class="tags"><ul class="no-bullet"><li><strong>@param: </strong><span class="types"> {number} </span><span class="name">opt_howManyTimes </span></li><li><strong>@return: </strong><span class="types"> {Kapi} </span></li></ul></div><div class="description"><p>@param {number} millisecond</p></div><pre><code class="language-javascript">Kapi.prototype.playFrom = function (millisecond, opt_howManyTimes) {
-    this.play(opt_howManyTimes);
-    this._loopTimestamp = now() - millisecond;
+<p><strong><a href="../../docs/examples/play.html">Example</a></strong></p></div><pre><code class="language-javascript">Kapi.prototype.play = function (opt_howManyTimes)</code></pre></div><div class="comment"><div class="label radius ctx-type">method</div><h1 id="playFrom">playFrom</h1><h5 class="subheader">Kapi.prototype.playFrom()</h5><div class="tags"><ul class="no-bullet"><li><strong>@param: </strong><span class="types"> {number} </span><span class="name">millisecond </span></li><li><strong>@param: </strong><span class="types"> {number} </span><span class="name">opt_howManyTimes </span></li><li><strong>@return: </strong><span class="types"> {Kapi} </span></li></ul></div><div class="description"><p>Move to a specific millisecond on the timeline and play from there. <code>opt_howManyTimes</code> works as it does in <code>play()</code>.</p>
 
-    return this;
-  };</code></pre></div><div class="comment"><div class="label radius ctx-type">method</div><h1 id="playFromCurrent">playFromCurrent</h1><h5 class="subheader">Kapi.prototype.playFromCurrent()</h5><div class="tags"><ul class="no-bullet"><li><strong>@return: </strong><span class="types"> {Kapi} </span></li></ul></div><div class="description"><p>@param {number} opt_howManyTimes</p></div><pre><code class="language-javascript">Kapi.prototype.playFromCurrent = function (opt_howManyTimes) {
-    return this.playFrom(this._lastUpdatedMillisecond, opt_howManyTimes);
-  };</code></pre></div><div class="comment"><div class="label radius ctx-type">method</div><h1 id="pause">pause</h1><h5 class="subheader">Kapi.prototype.pause()</h5><div class="tags"><ul class="no-bullet"></ul></div><div class="description"><p>@return {Kapi}</p></div><pre><code class="language-javascript">Kapi.prototype.pause = function () {
-    if (this._playState === playState.PAUSED) {
-      return this;
-    }
+<p><strong><a href="../../docs/examples/play_from.html">Example</a></strong></p></div><pre><code class="language-javascript">Kapi.prototype.playFrom = function (millisecond, opt_howManyTimes)</code></pre></div><div class="comment"><div class="label radius ctx-type">method</div><h1 id="playFromCurrent">playFromCurrent</h1><h5 class="subheader">Kapi.prototype.playFromCurrent()</h5><div class="tags"><ul class="no-bullet"><li><strong>@param: </strong><span class="types"> {number} </span><span class="name">opt_howManyTimes </span></li><li><strong>@return: </strong><span class="types"> {Kapi} </span></li></ul></div><div class="description"><p>Play from the last frame that was drawn with <code>render()</code>. <code>opt_howManyTimes</code> works as it does in <code>play()</code>.</p>
 
-    this._playState = playState.PAUSED;
-    cancelLoop(this);
-    this._pausedAtTime = now();
+<p><strong><a href="../../docs/examples/play_from_current.html">Example</a></strong></p></div><pre><code class="language-javascript">Kapi.prototype.playFromCurrent = function (opt_howManyTimes)</code></pre></div><div class="comment"><div class="label radius ctx-type">method</div><h1 id="pause">pause</h1><h5 class="subheader">Kapi.prototype.pause()</h5><div class="tags"><ul class="no-bullet"><li><strong>@return: </strong><span class="types"> {Kapi} </span></li></ul></div><div class="description"><p>Pause the animation.  A "paused" animation can be resumed from where it left off with <code>play()</code>.</p>
 
-    fireEvent(this, 'playStateChange', _);
-    fireEvent(this, 'pause', _);
+<p><strong><a href="../../docs/examples/pause.html">Example</a></strong></p></div><pre><code class="language-javascript">Kapi.prototype.pause = function ()</code></pre></div><div class="comment"><div class="label radius ctx-type">method</div><h1 id="stop">stop</h1><h5 class="subheader">Kapi.prototype.stop()</h5><div class="tags"><ul class="no-bullet"><li><strong>@return: </strong><span class="types"> {Kapi} </span></li></ul></div><div class="description"><p>Stop the animation.  A "stopped" animation will start from the beginning if <code>play()</code> is called upon it again.</p>
 
-    return this;
-  };</code></pre></div><div class="comment"><div class="label radius ctx-type">method</div><h1 id="stop">stop</h1><h5 class="subheader">Kapi.prototype.stop()</h5><div class="tags"><ul class="no-bullet"></ul></div><div class="description"><p>@return {Kapi}</p></div><pre><code class="language-javascript">Kapi.prototype.stop = function () {
-    this._playState = playState.STOPPED;
-    cancelLoop(this);
+<p><strong><a href="../../docs/examples/stop.html">Example</a></strong></p></div><pre><code class="language-javascript">Kapi.prototype.stop = function ()</code></pre></div><div class="comment"><div class="label radius ctx-type">method</div><h1 id="isPlaying">isPlaying</h1><h5 class="subheader">Kapi.prototype.isPlaying()</h5><div class="tags"><ul class="no-bullet"><li><strong>@return: </strong><span class="types"> {boolean} </span></li></ul></div><div class="description"><p>Return whether or not the animation is playing (meaning not paused or stopped).</p>
 
-    // Also kill any shifty tweens that are running.
-    _.each(this._actors, function (actor) {
-      actor.stop();
-    });
+<p><strong><a href="../../docs/examples/is_playing.html">Example</a></strong></p></div><pre><code class="language-javascript">Kapi.prototype.isPlaying = function ()</code></pre></div><div class="comment"><div class="label radius ctx-type">method</div><h1 id="animationLength">animationLength</h1><h5 class="subheader">Kapi.prototype.animationLength()</h5><div class="tags"><ul class="no-bullet"><li><strong>@return: </strong><span class="types"> {number} </span></li></ul></div><div class="description"><p>Return the length of the animation, in milliseconds.</p>
 
-    fireEvent(this, 'playStateChange', _);
-    fireEvent(this, 'stop', _);
+<p><strong><a href="../../docs/examples/animation_length.html">Example</a></strong></p></div><pre><code class="language-javascript">Kapi.prototype.animationLength = function ()</code></pre></div><div class="comment"><div class="label radius ctx-type">method</div><h1 id="lastPositionUpdated">lastPositionUpdated</h1><h5 class="subheader">Kapi.prototype.lastPositionUpdated()</h5><div class="tags"><ul class="no-bullet"><li><strong>@return: </strong><span class="types"> {number} </span></li></ul></div><div class="description"><p>Return the normalized (between 0 and 1) timeline position that was last calculated.</p>
 
-    return this;
-  };</code></pre></div><div class="comment"><div class="label radius ctx-type">method</div><h1 id="isPlaying">isPlaying</h1><h5 class="subheader">Kapi.prototype.isPlaying()</h5><div class="tags"><ul class="no-bullet"></ul></div><div class="description"><p>@return {boolean}</p></div><pre><code class="language-javascript">Kapi.prototype.isPlaying = function () {
-    return this._playState === playState.PLAYING;
-  };</code></pre></div><div class="comment"><div class="label radius ctx-type">method</div><h1 id="animationLength">animationLength</h1><h5 class="subheader">Kapi.prototype.animationLength()</h5><div class="tags"><ul class="no-bullet"></ul></div><div class="description"><p>@return {number}</p></div><pre><code class="language-javascript">Kapi.prototype.animationLength = function () {
-    return this._animationLength;
-  };</code></pre></div><div class="comment"><div class="label radius ctx-type">method</div><h1 id="lastPositionUpdated">lastPositionUpdated</h1><h5 class="subheader">Kapi.prototype.lastPositionUpdated()</h5><div class="tags"><ul class="no-bullet"></ul></div><div class="description"><p>@return {number}</p></div><pre><code class="language-javascript">Kapi.prototype.lastPositionUpdated = function () {
-    return (this._lastUpdatedMillisecond / this._animationLength);
-  };</code></pre></div><div class="comment"><div class="label radius ctx-type">method</div><h1 id="actorCount">actorCount</h1><h5 class="subheader">Kapi.prototype.actorCount()</h5><div class="tags"><ul class="no-bullet"></ul></div><div class="description"><p>@return {number}</p></div><pre><code class="language-javascript">Kapi.prototype.actorCount = function () {
-    return _.size(this._actors);
-  };</code></pre></div><div class="comment"><div class="label radius ctx-type">method</div><h1 id="framerate">framerate</h1><h5 class="subheader">Kapi.prototype.framerate()</h5><div class="tags"><ul class="no-bullet"><li><strong>@return: </strong><span class="types"> {number} </span></li></ul></div><div class="description"><p>@param {number} opt_newFramerate</p></div><pre><code class="language-javascript">Kapi.prototype.framerate = function (opt_newFramerate) {
-    if (opt_newFramerate) {
-      this.config.fps = opt_newFramerate;
-      this._scheduleUpdate = getUpdateMethod(this.config.fps);
-      this._cancelUpdate = getCancelMethod(this.config.fps);
-    }
+<p><strong><a href="../../docs/examples/last_position_rendered.html">Example</a></strong></p></div><pre><code class="language-javascript">Kapi.prototype.lastPositionUpdated = function ()</code></pre></div><div class="comment"><div class="label radius ctx-type">method</div><h1 id="actorCount">actorCount</h1><h5 class="subheader">Kapi.prototype.actorCount()</h5><div class="tags"><ul class="no-bullet"><li><strong>@return: </strong><span class="types"> {number} </span></li></ul></div><div class="description"><p>Return the number of <code>Actor</code>s in the animation.</p>
 
-    return this.config.fps;
-  };</code></pre></div><div class="comment"><div class="label radius ctx-type">method</div><h1 id="update">update</h1><h5 class="subheader">Kapi.prototype.update()</h5><div class="tags"><ul class="no-bullet"><li><strong>@return: </strong><span class="types"> {Kapi} </span></li></ul></div><div class="description"><p>@param {number=} opt_millisecond</p></div><pre><code class="language-javascript">Kapi.prototype.update = function (opt_millisecond) {
-    if (opt_millisecond === undefined) {
-      opt_millisecond = this._lastUpdatedMillisecond;
-    }
+<p><strong><a href="../../docs/examples/actor_count.html">Example</a></strong></p></div><pre><code class="language-javascript">Kapi.prototype.actorCount = function ()</code></pre></div><div class="comment"><div class="label radius ctx-type">method</div><h1 id="framerate">framerate</h1><h5 class="subheader">Kapi.prototype.framerate()</h5><div class="tags"><ul class="no-bullet"><li><strong>@param: </strong><span class="types"> {number} </span><span class="name">opt_newFramerate </span></li><li><strong>@return: </strong><span class="types"> {number} </span></li></ul></div><div class="description"><p>Get and optionally set the framerate of the animation.  There's generally no point in going above 60.</p>
 
-    fireEvent(this, 'beforeUpdate', _);
-    _.each(this._actors, function (actor) {
-      actor.updateState(opt_millisecond);
-      if (typeof actor.update === 'function') {
-        actor.update(actor.context(), actor.get());
-      }
-    });
-    this._lastUpdatedMillisecond = opt_millisecond;
-    fireEvent(this, 'afterUpdate', _);
+<p><strong><a href="../../docs/examples/framerate.html">Example</a></strong></p></div><pre><code class="language-javascript">Kapi.prototype.framerate = function (opt_newFramerate)</code></pre></div><div class="comment"><div class="label radius ctx-type">method</div><h1 id="update">update</h1><h5 class="subheader">Kapi.prototype.update()</h5><div class="tags"><ul class="no-bullet"><li><strong>@param: </strong><span class="types"> {number=} </span><span class="name">opt_millisecond </span></li><li><strong>@return: </strong><span class="types"> {Kapi} </span></li></ul></div><div class="description"><p>Update the position of all the <code>Actor</code>s to <code>opt_millisecond</code>.  If <code>opt_millisecond</code> is <code>undefined</code>, update to the last milliscond that the animation was updated to (it's a re-update).</p>
 
-    return this;
-  };</code></pre></div><div class="comment"><div class="label radius ctx-type">method</div><h1 id="on">on</h1><h5 class="subheader">Kapi.prototype.on()</h5><div class="tags"><ul class="no-bullet"><li><strong>@param: </strong><span class="types"> {Function} </span><span class="name">handler </span></li><li><strong>@return: </strong><span class="types"> {Kapi} </span></li></ul></div><div class="description"><p>@param {string} eventName</p></div><pre><code class="language-javascript">Kapi.prototype.on = function (eventName, handler) {
-    if (!this._events[eventName]) {
-      return;
-    }
+<p><strong><a href="../../docs/examples/update.html">Example</a></strong></p></div><pre><code class="language-javascript">Kapi.prototype.update = function (opt_millisecond)</code></pre></div><div class="comment"><div class="label radius ctx-type">method</div><h1 id="on">on</h1><h5 class="subheader">Kapi.prototype.on()</h5><div class="tags"><ul class="no-bullet"><li><strong>@param: </strong><span class="types"> {string} </span><span class="name">eventName </span></li><li><strong>@param: </strong><span class="types"> {Function} </span><span class="name">handler </span></li><li><strong>@return: </strong><span class="types"> {Kapi} </span></li></ul></div><div class="description"><p>Bind an handler function to a Kapi event.  Possible events include:</p>
 
-    this._events[eventName].push(handler);
+<ul>
+<li><strong>animationComplete</strong>: Fires when all animations loops have completed.</li>
+<li><strong>playStateChange</strong>: Fires when the animation is played, paused, or stopped.</li>
+<li><strong>play</strong>: Fires when the animation is <code>play()</code>ed.</li>
+<li><strong>pause</strong>: Fires when the animation is <code>pause()</code>d.</li>
+<li><strong>stop</strong>: Fires when the animation is <code>stop()</code>ped.</li>
+<li><strong>beforeUpdate</strong>: Fires each frame before all Actors are updated.</li>
+<li><strong>afterUpdate</strong>: Fires each frame after all Actors are updated.</li>
+<li><strong>addActor</strong>: Fires when an Actor is added.</li>
+<li><strong>removeActor</strong>: Fires when an Actor is removed.</li>
+</ul>
 
-    return this;
-  };</code></pre></div><div class="comment"><div class="label radius ctx-type">method</div><h1 id="off">off</h1><h5 class="subheader">Kapi.prototype.off()</h5><div class="tags"><ul class="no-bullet"><li><strong>@param: </strong><span class="types"> {Function} </span><span class="name">opt_handler </span></li><li><strong>@return: </strong><span class="types"> {Kapi} </span></li></ul></div><div class="description"><p>@param {string} eventName</p></div><pre><code class="language-javascript">Kapi.prototype.off = function (eventName, opt_handler) {
-    if (!this._events[eventName]) {
-      return;
-    }
+<p><strong><a href="../../docs/examples/bind.html">Example</a></strong></p></div><pre><code class="language-javascript">Kapi.prototype.on = function (eventName, handler)</code></pre></div><div class="comment"><div class="label radius ctx-type">method</div><h1 id="off">off</h1><h5 class="subheader">Kapi.prototype.off()</h5><div class="tags"><ul class="no-bullet"><li><strong>@param: </strong><span class="types"> {string} </span><span class="name">eventName </span></li><li><strong>@param: </strong><span class="types"> {Function} </span><span class="name">opt_handler </span></li><li><strong>@return: </strong><span class="types"> {Kapi} </span></li></ul></div><div class="description"><p>Unbind <code>opt_handler</code> from a Kapi event.  If <code>opt_handler</code> is omitted, all handler functions bound to <code>eventName</code> are unbound.  Valid events correspond to the list under <code>bind()</code>.</p>
 
-    if (!opt_handler) {
-      this._events[eventName] = [];
-    } else {
-      this._events[eventName] = _.without(this._events[eventName],
-        opt_handler);
-    }
+<p><strong><a href="../../docs/examples/unbind.html">Example</a></strong></p></div><pre><code class="language-javascript">Kapi.prototype.off = function (eventName, opt_handler)</code></pre></div><div class="comment"><div class="label radius ctx-type">method</div><h1 id="exportTimeline">exportTimeline</h1><h5 class="subheader">Kapi.prototype.exportTimeline()</h5><div class="tags"><ul class="no-bullet"><li><strong>@return: </strong><span class="types"> {Object} </span></li></ul></div><div class="description"><p>Export the current state of the animation into a serializable Object.</p>
 
-    return this;
-  };</code></pre></div><div class="comment"><div class="label radius ctx-type">method</div><h1 id="exportTimeline">exportTimeline</h1><h5 class="subheader">Kapi.prototype.exportTimeline()</h5><div class="tags"><ul class="no-bullet"></ul></div><div class="description"><p>@return {Object}</p></div><pre><code class="language-javascript">Kapi.prototype.exportTimeline = function () {
-    var exportData = {
-      'duration': this._animationLength
-      ,'actors': {}
-    };
-
-    _.each(this._actors, function (actor) {
-      exportData.actors[actor.id] = actor.exportTimeline();
-    }, this);
-
-    return exportData;
-  };
-
-
-  Kapi.util = {};
-
-  // Some hooks for testing.
-  if (KAPI_DEBUG) {
-    Kapi._private = {
-      'calculateLoopPosition': calculateLoopPosition
-      ,'updateToCurrentMillisecond': updateToCurrentMillisecond
-      ,'tick': tick
-      ,'determineCurrentLoopIteration': determineCurrentLoopIteration
-      ,'calculateTimeSinceStart': calculateTimeSinceStart
-      ,'isAnimationComplete': isAnimationComplete
-      ,'updatePlayState': updatePlayState
-    };
-  }
-
-  context.Kapi = Kapi;
-
-};</code></pre></div><div class="comment"><div class="label radius ctx-type">function</div><h1 id="rekapiActor">rekapiActor</h1><h5 class="subheader">rekapiActor()</h5><div class="tags"><ul class="no-bullet"></ul></div><div class="description"><p>lobal recalculateAnimationLength:true</p></div><pre><code class="language-javascript">var rekapiActor = function (context, _, Tweenable) {
+<p><strong><a href="../../dos/examples/export_timeline.html">Example</a></strong></p></div><pre><code class="language-javascript">Kapi.prototype.exportTimeline = function ()</code></pre></div><div class="comment"><div class="label radius ctx-type">function</div><h1 id="rekapiActor">rekapiActor</h1><h5 class="subheader">rekapiActor()</h5><div class="tags"><ul class="no-bullet"></ul></div><div class="description"><p>lobal recalculateAnimationLength:true</p></div><pre><code class="language-javascript">var rekapiActor = function (context, _, Tweenable) {
 
   'use strict';
 
@@ -604,7 +525,7 @@ var rekapiKeyframeProperty = function (context, _, Tweenable) {
 
 
   // PRIVATE UTILITY FUNCTIONS
-  //</code></pre></div><div class="comment"><div class="label radius ctx-type">function</div><h1 id="dimension">dimension</h1><h5 class="subheader">dimension()</h5><div class="tags"><ul class="no-bullet"><li><strong>@param: </strong><span class="types"> {HTMLCanvas} </span><span class="name">context </span></li><li><strong>@param: </strong><span class="types"> {string} </span><span class="name">heightOrWidth </span><span class="description">The dimension (either &quot;height&quot; or &quot;width&quot;)</span></li><li><strong>@to: </strong></li><li><strong>@param: </strong><span class="types"> {number} </span><span class="name">opt_newSize </span><span class="description">The new value to set for `dimension`.</span></li><li><strong>@return: </strong><span class="types"> {number} </span></li></ul></div><div class="description"><p>Gets (and optionally sets) height or width on a canvas.</p></div><pre><code class="language-javascript">function dimension (context, heightOrWidth, opt_newSize) {
+  //</code></pre></div><div class="comment"><div class="label radius ctx-type">function</div><h1 id="dimension">dimension</h1><h5 class="subheader">dimension()</h5><div class="tags"><ul class="no-bullet"><li><strong>@param: </strong><span class="types"> {HTMLCanvas} </span><span class="name">context </span></li><li><strong>@param: </strong><span class="types"> {string} </span><span class="name">heightOrWidth </span><span class="description">The dimension (either &quot;height&quot; or &quot;width&quot;)</span></li><li><strong>@to: </strong><span class="string">get or set.</span></li><li><strong>@param: </strong><span class="types"> {number} </span><span class="name">opt_newSize </span><span class="description">The new value to set for `dimension`.</span></li><li><strong>@return: </strong><span class="types"> {number} </span></li></ul></div><div class="description"><p>Gets (and optionally sets) height or width on a canvas.</p></div><pre><code class="language-javascript">function dimension (context, heightOrWidth, opt_newSize) {
     if (typeof opt_newSize !== 'undefined') {
       context[heightOrWidth] = opt_newSize;
       context.style[heightOrWidth] = opt_newSize + 'px';
@@ -768,7 +689,7 @@ var rekapiDOM = function (context, _) {
     forElement.style[styleName] = styleValue;
   }</code></pre></div><div class="comment"><div class="label radius ctx-type">function</div><h1 id="isTransformFunction">isTransformFunction</h1><h5 class="subheader">isTransformFunction()</h5><div class="tags"><ul class="no-bullet"><li><strong>@return: </strong><span class="types"> {boolean} </span></li></ul></div><div class="description"><p>@param {string} name A transform function name</p></div><pre><code class="language-javascript">function isTransformFunction (name) {
     return _.contains(transformFunctions, name);
-  }</code></pre></div><div class="comment"><div class="label radius ctx-type">function</div><h1 id="buildTransformValue">buildTransformValue</h1><h5 class="subheader">buildTransformValue()</h5><div class="tags"><ul class="no-bullet"><li><strong>@param: </strong><span class="types"> {Array.&lt;string&gt;} </span><span class="name">orderedFunctions </span><span class="description">Array of ordered transform</span></li><li><strong>@: </strong></li><li><strong>@param: </strong><span class="types"> {Object} </span><span class="name">transformProperties </span><span class="description">Transform properties to build together</span></li><li><strong>@return: </strong><span class="types"> {string} </span></li></ul></div><div class="description"><p>Builds a concatenated string of given transform property values in order.</p></div><pre><code class="language-javascript">function buildTransformValue (orderedFunctions, transformProperties) {
+  }</code></pre></div><div class="comment"><div class="label radius ctx-type">function</div><h1 id="buildTransformValue">buildTransformValue</h1><h5 class="subheader">buildTransformValue()</h5><div class="tags"><ul class="no-bullet"><li><strong>@param: </strong><span class="types"> {Array.&lt;string&gt;} </span><span class="name">orderedFunctions </span><span class="description">Array of ordered transform</span></li><li><strong>@: </strong><span class="string">function names</span></li><li><strong>@param: </strong><span class="types"> {Object} </span><span class="name">transformProperties </span><span class="description">Transform properties to build together</span></li><li><strong>@return: </strong><span class="types"> {string} </span></li></ul></div><div class="description"><p>Builds a concatenated string of given transform property values in order.</p></div><pre><code class="language-javascript">function buildTransformValue (orderedFunctions, transformProperties) {
     var transformComponents = [];
 
     _.each(orderedFunctions, function(functionName) {
@@ -969,7 +890,7 @@ var rekapiToCSS = function (context, _) {
     boilerplatedKeyframes = boilerplatedKeyframes.join('\n');
 
     return boilerplatedKeyframes;
-  }</code></pre></div><div class="comment"><div class="label radius ctx-type">function</div><h1 id="applyVendorBoilerplates">applyVendorBoilerplates</h1><h5 class="subheader">applyVendorBoilerplates()</h5><div class="tags"><ul class="no-bullet"><li><strong>@param: </strong><span class="types"> {string} </span><span class="name">animName </span></li><li><strong>@param: </strong><span class="types"> {Array.&lt;string&gt;} </span><span class="name">opt_vendors </span><span class="description">Vendor boilerplates to be applied.</span></li><li><strong>@: </strong></li><li><strong>@return: </strong><span class="types"> {string} </span></li></ul></div><div class="description"><p>@param {string} toKeyframes Generated keyframes to wrap in boilerplates</p></div><pre><code class="language-javascript">function applyVendorBoilerplates (toKeyframes, animName, opt_vendors) {
+  }</code></pre></div><div class="comment"><div class="label radius ctx-type">function</div><h1 id="applyVendorBoilerplates">applyVendorBoilerplates</h1><h5 class="subheader">applyVendorBoilerplates()</h5><div class="tags"><ul class="no-bullet"><li><strong>@param: </strong><span class="types"> {string} </span><span class="name">animName </span></li><li><strong>@param: </strong><span class="types"> {Array.&lt;string&gt;} </span><span class="name">opt_vendors </span><span class="description">Vendor boilerplates to be applied.</span></li><li><strong>@: </strong><span class="string">Should be any of the values in Kapi.util.VENDOR_PREFIXES.</span></li><li><strong>@return: </strong><span class="types"> {string} </span></li></ul></div><div class="description"><p>@param {string} toKeyframes Generated keyframes to wrap in boilerplates</p></div><pre><code class="language-javascript">function applyVendorBoilerplates (toKeyframes, animName, opt_vendors) {
     opt_vendors = opt_vendors || ['w3'];
     var renderedKeyframes = [];
 
