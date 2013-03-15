@@ -1,4 +1,4 @@
-/*! Rekapi - v0.13.10 - 2013-03-13 - http://rekapi.com */
+/*! Rekapi - v0.13.10 - 2013-03-14 - http://rekapi.com */
 /*!
  * Rekapi - Rewritten Kapi.
  * https://github.com/jeremyckahn/rekapi
@@ -681,7 +681,7 @@ var rekapiCore = function (context, _, Tweenable) {
 
 };
 
-/*global recalculateAnimationLength:true */
+/*global recalculateAnimationLength *//*!*/
 var rekapiActor = function (context, _, Tweenable) {
 
   'use strict';
