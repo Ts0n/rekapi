@@ -681,7 +681,6 @@ var rekapiCore = function (context, _, Tweenable) {
 
 };
 
-/*global recalculateAnimationLength *//*!*/
 var rekapiActor = function (context, _, Tweenable) {
 
   'use strict';
@@ -690,7 +689,7 @@ var rekapiActor = function (context, _, Tweenable) {
   var Kapi = context.Kapi;
 
 
-  /**
+  /*!
    * Sorts an array numerically, from smallest to largest.
    * @param {Array} array The Array to sort.
    * @return {Array} The sorted Array.
@@ -702,7 +701,7 @@ var rekapiActor = function (context, _, Tweenable) {
   }
 
 
-  /**
+  /*!
    * @param {Kapi.Actor} actor
    * @param {number} millisecond
    * @return {number}
@@ -723,7 +722,7 @@ var rekapiActor = function (context, _, Tweenable) {
   }
 
 
-  /**
+  /*!
    * Order all of an Actor's property tracks so they can be cached.
    * @param {Kapi.Actor} actor
    */
@@ -737,7 +736,7 @@ var rekapiActor = function (context, _, Tweenable) {
   }
 
 
-  /**
+  /*!
    * Compute and fill all timeline caches.
    * @param {Kapi.Actor} actor
    */
@@ -749,7 +748,7 @@ var rekapiActor = function (context, _, Tweenable) {
   }
 
 
-  /**
+  /*!
    * Gets all of the current and most recent Kapi.KeyframeProperties for a
    * given millisecond.
    * @param {Kapi.Actor} actor
@@ -786,7 +785,7 @@ var rekapiActor = function (context, _, Tweenable) {
   }
 
 
-  /**
+  /*!
    * Links each KeyframeProperty to the next one in it's respective track.
    *
    * They're linked lists!
@@ -801,7 +800,7 @@ var rekapiActor = function (context, _, Tweenable) {
   }
 
 
-  /**
+  /*!
    * Returns a requested KeyframeProperty at a millisecond on a specified
    * track.
    * @param {Kapi.Actor} actor
@@ -817,7 +816,7 @@ var rekapiActor = function (context, _, Tweenable) {
   }
 
 
-  /**
+  /*!
    * Empty out and re-cache internal KeyframeProperty data.
    * @param {Kapi.Actor}
    */
@@ -846,10 +845,22 @@ var rekapiActor = function (context, _, Tweenable) {
 
 
   /**
+   * Create a `Kapi.Actor` instance.
+   *
+   * Valid properties of `opt_config` (you can omit the ones you don't need):
+   *
+   * - __context__ (_Object_): The context that this Actor is associated with. If omitted, this Actor gets the `Kapi` instance's context when it is added to an animation.
+   * - __setup__ (_Function_): A function that gets called when the `Actor` is added to a `Kapi` instance (with `addActor()`).
+   * - __update__ (_Function_): A function that gets called every time that the `Actor`'s state is updated. It receives two parameters: A reference to the `Actor`'s context and an Object containing the current state properties.
+   * - __teardown__ (_Function_): A function that gets called when the `Actor` is removed from the animation (with `removeActor()`).
+   *
+   * `Kapi.Actor` does _not_ render to any context.  It is a base class.  Use the [`Kapi.CanvasActor`](../ext/canvas) [`Kapi.DOMActor`](../ext/dom) subclasses to render to the screen.
+   *
+   * __[Example](../../docs/examples/actor.html)__
    * @param {Object} opt_config
    * @constructor
    */
-  var Actor = Kapi.Actor = function (opt_config) {
+  var Actor = Kapi.Actor = function (opt_config) /*!*/ {
 
     opt_config = opt_config || {};
 
@@ -887,10 +898,13 @@ var rekapiActor = function (context, _, Tweenable) {
 
 
   /**
+   * Get and optionally set the `Actor`'s context.
+   *
+   * __[Example](../../docs/examples/actor_context.html)__
    * @param {Object} opt_context
    * @return {Object}
    */
-  Actor.prototype.context = function (opt_context) {
+  Actor.prototype.context = function (opt_context) /*!*/ {
     if (opt_context) {
       this._context = opt_context;
     }
@@ -900,12 +914,54 @@ var rekapiActor = function (context, _, Tweenable) {
 
 
   /**
+   * Create a keyframe for the `Actor`.  `when` defines where in the animation to place the keyframe, in milliseconds (assumes that `0` is when the animation began).  The animation length will automatically "grow" to accommodate any keyframe position.
+   *
+   * `position` should contain all of the properties that define the keyframe's state.  These properties can be any value that can be tweened by [Shifty](https://github.com/jeremyckahn/shifty) (numbers, color strings, CSS properties).
+   *
+   * __Note:__ Internally, this creates a one or more `Kapi.KeyframeProperty`s and places them on a "track."
+   *
+   * `opt_easing`, if specified, can be a string or an Object.  If it's a string, all properties in `position` will have the same easing formula applied to them. Like this:
+   *
+   * ```javascript
+   * actor.keyframe(1000, {
+   *     'x': 100,
+   *     'y': 100
+   *   }, 'easeOutSine');
+   * ```
+   *
+   * Both `x` and `y` will have `easeOutSine` applied to them.  You can also specify multiple easing formulas with an Object:
+   *
+   * ```javascript
+   * actor.keyframe(1000, {
+   *     'x': 100,
+   *     'y': 100
+   *   }, {
+   *     'x': 'easeinSine',
+   *     'y': 'easeOutSine'
+   *   });
+   * ```
+   *
+   * `x` will transition with an easing of `easeInSine`, and `y` will transition with an easing of `easeOutSine`.  Any missing properties will transition with `linear`.  If the `opt_easing` property is omitted, all properties will default to `linear`.
+   *
+   * Keyframes always inherit missing properties from the keyframes that came before them.  For example:
+   *
+   * ```javascript
+   * actor.keyframe(0, {
+   *   'x': 100
+   * }).keyframe(1000{
+   *   // Inheriting the `x` from above!
+   *   'y': 50
+   * });
+   * ```
+   *
+Keyframe `1000` will have a `y` of `50`, and an `x` of `100`, because `x` was inherited from keyframe `0`.
    * @param {number} when
    * @param {Object} position
    * @param {string|Object} easing
    * @return {Kapi.Actor}
    */
-  Actor.prototype.keyframe = function keyframe (when, position, opt_easing) {
+  Actor.prototype.keyframe =
+      function keyframe (when, position, opt_easing) /*!*/ {
     var originalEasingString;
 
     // TODO:  The opt_easing logic seems way overcomplicated, it's probably out
@@ -951,11 +1007,14 @@ var rekapiActor = function (context, _, Tweenable) {
 
 
   /**
-   * @param {string} property
-   * @param {number} index
+   * Gets the `KeyframeProperty` from an `Actor`'s `KeyframeProperty` track. Returns `undefined` if the lookup failed.
+   *
+   * __[Example](../../docs/examples/actor_get_keyframe_property.html)__
+   * @param {string} property The name of the property.
+   * @param {number} index The index of the KeyframeProperty in the Actor's KeyframeProperty track.
    * @return {Kapi.KeyframeProperty|undefined}
    */
-  Actor.prototype.getKeyframeProperty = function (property, index) {
+  Actor.prototype.getKeyframeProperty = function (property, index) /*!*/ {
     if (this._propertyTracks[property]
         && this._propertyTracks[property][index]) {
       return this._propertyTracks[property][index];
@@ -964,13 +1023,16 @@ var rekapiActor = function (context, _, Tweenable) {
 
 
   /**
-   * @param {string} property
-   * @param {number} index
-   * @param {Object} newProperties
+   * Modify a specified `KeyframeProperty` stored on an `Actor`.  Essentially, this calls `modifyWith` on the targeted `KeyframeProperty` (passing along `newProperties`) and then performs some cleanup.
+   *
+   * __[Example](../../docs/examples/actor_modify_keyframe_property.html)__
+   * @param {string} property The name of the property to modify
+   * @param {number} index The property track index of the KeyframeProperty to modify
+   * @param {Object} newProperties The properties to augment the KeyframeProperty with
    * @return {Kapi.Actor}
    */
-  Actor.prototype.modifyKeyframeProperty = function (property, index,
-      newProperties) {
+  Actor.prototype.modifyKeyframeProperty =
+      function (property, index, newProperties) /*!*/ {
     if (this._propertyTracks[property]
         && this._propertyTracks[property][index]) {
       this._propertyTracks[property][index].modifyWith(newProperties);
@@ -984,18 +1046,24 @@ var rekapiActor = function (context, _, Tweenable) {
 
 
   /**
+   * Get a list of all the track names for an `Actor`.  Each element in this Array is a string.
+   *
+   * __[Example](../../docs/examples/actor_get_track_names.html)__
    * @return {Array}
    */
-  Actor.prototype.getTrackNames = function () {
+  Actor.prototype.getTrackNames = function () /*!*/ {
     return _.keys(this._propertyTracks);
   };
 
 
   /**
+   * Get the property track length for an `Actor` (how many `KeyframeProperty`s are in a given property track).
+   *
+   * __[Example](../../docs/examples/actor_get_track_length.html)__
    * @param {string} trackName
    * @return {number}
    */
-  Actor.prototype.getTrackLength = function (trackName) {
+  Actor.prototype.getTrackLength = function (trackName) /*!*/ {
     if (!this._propertyTracks[trackName]) {
       return;
     }
@@ -1005,11 +1073,14 @@ var rekapiActor = function (context, _, Tweenable) {
 
 
   /**
-   * @param {number} copyTo
-   * @param {number} copyFrom
+   * Copy all of the properties that at one point in the timeline to another point. This is useful for many things, particularly for bringing a `Kapi.Actor` back to its original position.
+   *
+   * __[Example](../../docs/examples/actor_copy_properties.html)__
+   * @param {number} copyTo The millisecond to copy KeyframeProperties to
+   * @param {number} copyFrom The millisecond to copy KeyframeProperties from
    * @return {Kapi.Actor}
    */
-  Actor.prototype.copyProperties = function (copyTo, copyFrom) {
+  Actor.prototype.copyProperties = function (copyTo, copyFrom) /*!*/ {
     var sourcePositions = {};
     var sourceEasings = {};
 
@@ -1029,10 +1100,13 @@ var rekapiActor = function (context, _, Tweenable) {
 
 
   /**
-   * @param {number} until
+   * Extend the last state on this `Actor`'s timeline to create a animation wait. The state does not change during this time.
+   *
+   * __[Example](../../docs/examples/actor_wait.html)__
+   * @param {number} until At what point in the animation the Actor should wait until (relative to the start of the animation)
    * @return {Kapi.Actor}
    */
-  Actor.prototype.wait = function (until) {
+  Actor.prototype.wait = function (until) /*!*/ {
     var length = this.getEnd();
 
     if (until <= length) {
@@ -1058,10 +1132,13 @@ var rekapiActor = function (context, _, Tweenable) {
 
 
   /**
+   * Get the millisecond of the first state of an `Actor` (when it first starts animating).  You can get the start time of a specific track with `opt_trackName`.
+   *
+   * __[Example](../../docs/examples/actor_get_start.html)__
    * @param {string} opt_trackName
    * @return {number}
    */
-  Actor.prototype.getStart = function (opt_trackName) {
+  Actor.prototype.getStart = function (opt_trackName) /*!*/ {
     var starts = [];
 
     if (opt_trackName) {
@@ -1083,10 +1160,13 @@ var rekapiActor = function (context, _, Tweenable) {
 
 
   /**
+   * Get the millisecond of the last state of an `Actor` (when it is done animating).  You can get the last state for a specific track with `opt_trackName`.
+   *
+   * __[Example](../../docs/examples/actor_get_end.html)__
    * @param {string} opt_trackName
    * @return {number}
    */
-  Actor.prototype.getEnd = function (opt_trackName) {
+  Actor.prototype.getEnd = function (opt_trackName) /*!*/ {
     var latest = 0;
     var tracksToInspect = this._propertyTracks;
 
@@ -1110,23 +1190,25 @@ var rekapiActor = function (context, _, Tweenable) {
 
 
   /**
+   * Get the length of time in milliseconds that an `Actor` animates for.  You can get the length of time that a specific track animates for with `opt_trackName`.
+   *
+   * __[Example](../../docs/examples/actor_get_length.html)__
    * @param {string} opt_trackName
    * @return {number}
    */
-  Actor.prototype.getLength = function (opt_trackName) {
+  Actor.prototype.getLength = function (opt_trackName) /*!*/ {
     return this.getEnd(opt_trackName) - this.getStart(opt_trackName);
   };
 
 
   /*
-   * Determines if an actor has a keyframe set at a given millisecond.
-   * Can optionally look for an existing keyframe on a single property track.
+   * Determines if an actor has a keyframe set at a given millisecond.  Can optionally look for an existing keyframe on a single property track.
    *
-   * @param {number} when Millisecond
+   * @param {number} when Millisecond value to look for a property.
    * @param {string} opt_trackName Optional name of a property track
    * @return {boolean}
    */
-  Actor.prototype.hasKeyframeAt = function(when, opt_trackName) {
+  Actor.prototype.hasKeyframeAt = function(when, opt_trackName) /*!*/ {
     var tracks = this._propertyTracks;
 
     if (opt_trackName) {
@@ -1145,14 +1227,37 @@ var rekapiActor = function (context, _, Tweenable) {
 
 
   /**
+   * Augment the `value` or `easing` of any or all `KeyframeProperty`s at a given millisecond for an `Actor`.  Any `KeyframeProperty`s not specified in `stateModification` or `opt_easing` are not modified.  Here's how you might use it:
+   *
+   * ```javascript
+   * actor.keyframe(0, {
+   *   'x': 10,
+   *   'y': 20
+   * }).keyframe(1000, {
+   *   'x': 20,
+   *   'y': 40
+   * }).keyframe(2000, {
+   *   'x': 30,
+   *   'y': 60
+   * })
+   *
+   * // Changes the state of the keyframe at millisecond 1000.
+   * // Modifies the value of 'y' and the easing of 'x.'
+   * actor.modifyKeyframe(1000, {
+   *   'y': 150
+   * }, {
+   *   'x': 'easeFrom'
+   * });
+   * ```
+   *
+   * __[Example](../../docs/examples/actor_modify_keyframe.html)__
    * @param {number} when
    * @param {Object} stateModification
    * @param {Object} opt_easingModification
    * @return {Kapi.Actor}
    */
-  Actor.prototype.modifyKeyframe = function (when, stateModification,
-      opt_easingModification) {
-
+  Actor.prototype.modifyKeyframe =
+      function (when, stateModification, opt_easingModification) /*!*/ {
     opt_easingModification = opt_easingModification || {};
 
     _.each(this._propertyTracks, function (propertyTrack, trackName) {
@@ -1171,10 +1276,13 @@ var rekapiActor = function (context, _, Tweenable) {
 
 
   /**
+   * Remove all `KeyframeProperty`s at a given millisecond of the animation.  `when` is the millisecond of the keyframe to remove.
+   *
+   * __[Example](../../docs/examples/actor_remove_keyframe.html)__
    * @param {when} when
    * @return {Kapi.Actor}
    */
-  Actor.prototype.removeKeyframe = function (when) {
+  Actor.prototype.removeKeyframe = function (when) /*!*/ {
     _.each(this._propertyTracks, function (propertyTrack, propertyName) {
       var i = -1;
       var foundProperty = false;
@@ -1205,9 +1313,12 @@ var rekapiActor = function (context, _, Tweenable) {
 
 
   /**
+   * Remove all `KeyframeProperty`s set on the `Actor`.
+   *
+   * __[Example](../../docs/examples/actor_remove_all_keyframe_properties.html)__
    * @return {Kapi.Actor}
    */
-  Actor.prototype.removeAllKeyframeProperties = function () {
+  Actor.prototype.removeAllKeyframeProperties = function () /*!*/ {
     _.each(this._propertyTracks, function (propertyTrack, propertyName) {
       propertyTrack.length = 0;
     }, this);
@@ -1218,10 +1329,13 @@ var rekapiActor = function (context, _, Tweenable) {
 
 
   /**
+   * Calculate and set the `Actor`'s position at `millisecond` in the animation.
+   *
+   * __[Example](../../docs/examples/actor_update_state.html)__
    * @param {number} millisecond
    * @return {Kapi.Actor}
    */
-  Actor.prototype.updateState = function (millisecond) {
+  Actor.prototype.updateState = function (millisecond) /*!*/ {
     var startMs = this.getStart();
     var endMs = this.getEnd();
 
@@ -1249,9 +1363,12 @@ var rekapiActor = function (context, _, Tweenable) {
 
 
   /**
+   * Export a reference-less dump of this `Actor`'s timeline property tracks and KeyframeProperties.
+   *
+   * __[Example](../../docs/examples/actor_export_timeline.html)__
    * @return {Object}
    */
-  Actor.prototype.exportTimeline = function () {
+  Actor.prototype.exportTimeline = function () /*!*/ {
     var exportData = {
       'start': this.getStart()
       ,'end': this.getEnd()
@@ -2421,8 +2538,6 @@ var rekapiToCSS = function (context, _) {
 
 };
 
-/*global rekapiCore rekapiActor rekapiKeyframeProperty rekapiDOM rekapiToCSS
-rekapiCanvasContext rekapiCanvasActor define */
 var rekapi = function (global, deps) {
 
   'use strict';
