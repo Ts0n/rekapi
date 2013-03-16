@@ -149,13 +149,14 @@ var rekapiCanvasContext = function (context, _) {
    * @param {Kapi} kapi
    * @constructor
    */
-  var CanvasRenderer = Kapi.CanvasRenderer = function (kapi) /*!*/ {
+  Kapi.CanvasRenderer = function (kapi) /*!*/ {
     this.kapi = kapi;
     this._drawOrder = [];
     this._drawOrderSorter = null;
     this._canvasActors = {};
     return this;
   };
+  var CanvasRenderer = Kapi.CanvasRenderer;
 
 
   /**
