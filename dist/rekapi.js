@@ -1495,7 +1495,6 @@ var rekapiKeyframeProperty = function (context, _, Tweenable) {
 
 };
 
-/*global fireEvent: true */
 var rekapiCanvasContext = function (context, _) {
 
   'use strict';
@@ -1506,7 +1505,7 @@ var rekapiCanvasContext = function (context, _) {
   // PRIVATE UTILITY FUNCTIONS
   //
 
-  /**
+  /*!
    * Gets (and optionally sets) height or width on a canvas.
    * @param {HTMLCanvas} context
    * @param {string} heightOrWidth The dimension (either "height" or "width")
@@ -1524,9 +1523,9 @@ var rekapiCanvasContext = function (context, _) {
   }
 
 
-  /**
+  /*!
    * Takes care of some pre-drawing tasks for canvas animations.
-  * @param {Kapi}
+   * @param {Kapi}
    */
   function beforeDraw (kapi) {
     if (kapi.config.clearOnUpdate) {
@@ -1535,7 +1534,7 @@ var rekapiCanvasContext = function (context, _) {
   }
 
 
-  /**
+  /*!
    * Draw all the `Actor`s at whatever position they are currently in.
    * @param {Kapi}
    * @return {Kapi}
@@ -1567,7 +1566,7 @@ var rekapiCanvasContext = function (context, _) {
   }
 
 
-  /**
+  /*!
    * @param {Kapi} kapi
    * @param {Kapi.Actor} actor
    */
@@ -1579,7 +1578,7 @@ var rekapiCanvasContext = function (context, _) {
   }
 
 
-  /**
+  /*!
    * @param {Kapi} kapi
    * @param {Kapi.Actor} actor
    */
@@ -1591,7 +1590,7 @@ var rekapiCanvasContext = function (context, _) {
   }
 
 
-  /**
+  /*!
    * Sets up an instance of CanvasRenderer and attaches it to a `Kapi`
    * instance.  Also augments the Kapi instance with canvas-specific
    * functions.
@@ -1626,10 +1625,28 @@ var rekapiCanvasContext = function (context, _) {
   //
 
   /**
+   * You can use Rekapi to render to an HTML5 `<canvas>`.  The Canvas renderer does two things:
+   *
+   *   1. Subclass `Kapi.Actor` as `Kapi.CanvasActor`.
+   *   2. Attach an instance of `Kapi.CanvasRenderer` to each instance of `Kapi`, named `canvas`, at initialization time.  So:
+   *
+   * ```
+   * // With the Rekapi Canvas renderer enabled
+   * var kapi = new Kapi();
+   * kapi.canvas instanceof Kapi.CanvasRenderer; // true
+   * ```
+   *
+   * __Note:__ This constructor is called for you automatically - there is no need to call it explicitly.
+   *
+   * The Canvas renderer adds some new events you can bind to with `Kapi.on`.
+   *
+   *  - __beforeDraw__: Fires just before an actor is drawn to the screen.
+   *  - __afterDraw__: Fires just after an actor is drawn to the screen.
+   *
    * @param {Kapi} kapi
    * @constructor
    */
-  var CanvasRenderer = Kapi.CanvasRenderer = function (kapi) {
+  var CanvasRenderer = Kapi.CanvasRenderer = function (kapi) /*!*/ {
     this.kapi = kapi;
     this._drawOrder = [];
     this._drawOrderSorter = null;
@@ -1639,27 +1656,33 @@ var rekapiCanvasContext = function (context, _) {
 
 
   /**
+   * Get and optionally set the height of the associated `<canvas>` element.
+   *
    * @param {number} opt_height
    * @return {number}
    */
-  CanvasRenderer.prototype.height = function (opt_height) {
+  CanvasRenderer.prototype.height = function (opt_height) /*!*/ {
     return dimension(this.kapi.context, 'height', opt_height);
   };
 
 
   /**
+   * Get and optionally set the width of the associated `<canvas>` element.
+   *
    * @param {number} opt_width
    * @return {number}
    */
-  CanvasRenderer.prototype.width = function (opt_width) {
+  CanvasRenderer.prototype.width = function (opt_width) /*!*/ {
     return dimension(this.kapi.context, 'width', opt_width);
   };
 
 
   /**
+   * Erase the `<canvas>`.
+   *
    * @return {Kapi}
    */
-  CanvasRenderer.prototype.clear = function () {
+  CanvasRenderer.prototype.clear = function () /*!*/ {
     // TODO: Is this check necessary?
     if (this.kapi.context.getContext) {
       this.context().clearRect(
@@ -1671,19 +1694,23 @@ var rekapiCanvasContext = function (context, _) {
 
 
   /**
+   * Retrieve the 2d context of the `<canvas>` that is set as the `Kapi` instance's context.  This is needed for all rendering operations.  It is also provided to a `CanvasActor`'s `draw` method, so you mostly won't need to call it directly.  This overrides the `Kapi.prototype.context` method - it returns the rendered context, not the raw `<canvas>` element.  See the [MDN](https://developer.mozilla.org/en/Drawing_Graphics_with_Canvas) for more info on the Canvas context.
    * @return {CanvasRenderingContext2D}
    */
-  CanvasRenderer.prototype.context = function () {
+  CanvasRenderer.prototype.context = function () /*!*/ {
     return this.kapi.context.getContext('2d');
   };
 
 
   /**
+   * Move a `CanvasActor` around in the layer list.  Each layer has one `CanvasActor`, and `CanvasActor`s are drawn in order of their layer.  Lower layers (starting with 0) are drawn earlier.  If `layer` is higher than the number of layers (which can be found with `actorCount()`) or lower than 0, this method will return `undefined`.
+   *
+   * __[Example](../../docs/examples/canvas_move_actor_to_layer.html)__
    * @param {Kapi.Actor} actor
    * @param {number} layer
    * @return {Kapi.Actor|undefined}
    */
-  CanvasRenderer.prototype.moveActorToLayer = function (actor, layer) {
+  CanvasRenderer.prototype.moveActorToLayer = function (actor, layer) /*!*/ {
     if (layer < this._drawOrder.length) {
       this._drawOrder = _.without(this._drawOrder, actor.id);
       this._drawOrder.splice(layer, 0, actor.id);
@@ -1696,19 +1723,29 @@ var rekapiCanvasContext = function (context, _) {
 
 
   /**
+   * Set a function that defines the draw order of the `CanvasActor`s.  This is called each frame before the `CanvasActor`s are drawn.  The following example assumes that all `CanvasActor`s are circles that have a `radius` property.  The circles will be drawn in order of the value of their `radius`, from smallest to largest.  This has the effect of layering larger circles on top of smaller circles, giving a sense of perspective.
+   *
+   * ```
+   * kapi.canvas.setOrderFunction(function (actor) {
+   *   return actor.get().radius;
+   * });
+   * ```
    * @param {function(Kapi.Actor, number)} sortFunction
    * @return {Kapi}
    */
-  CanvasRenderer.prototype.setOrderFunction = function (sortFunction) {
+  CanvasRenderer.prototype.setOrderFunction = function (sortFunction) /*!*/ {
     this._drawOrderSorter = sortFunction;
     return this.kapi;
   };
 
 
   /**
+   * Remove the sort order function set by `setOrderFunction`.  Draw order defaults back to the order in which `CanvasActors` were added.
+   *
+   * __[Example](../../docs/examples/canvas_unset_order_function.html)__
    * @return {Kapi}
    */
-  CanvasRenderer.prototype.unsetOrderFunction = function () {
+  CanvasRenderer.prototype.unsetOrderFunction = function () /*!*/ {
     this._drawOrderSorter = null;
     return this.kapi;
   };
