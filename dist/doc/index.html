@@ -177,56 +177,18 @@ actor.modifyKeyframe(1000, {
 
 <p><strong><a href="../../docs/examples/actor_update_state.html">Example</a></strong></p></div><pre><code class="language-javascript">Actor.prototype.updateState = function (millisecond)</code></pre></div><div class="comment"><div class="label radius ctx-type">method</div><h1 id="exportTimeline">exportTimeline</h1><h5 class="subheader">Actor.prototype.exportTimeline()</h5><div class="tags"><ul class="no-bullet"><li><strong>@return: </strong><span class="types"> {Object} </span></li></ul></div><div class="description"><p>Export a reference-less dump of this <code>Actor</code>'s timeline property tracks and KeyframeProperties.</p>
 
-<p><strong><a href="../../docs/examples/actor_export_timeline.html">Example</a></strong></p></div><pre><code class="language-javascript">Actor.prototype.exportTimeline = function ()</code></pre></div><div class="comment"><div class="label radius ctx-type">declaration</div><h1 id="KeyframeProperty">KeyframeProperty</h1><h5 class="subheader">KeyframeProperty</h5><div class="tags"><ul class="no-bullet"><li><strong>@param: </strong><span class="types"> {number} </span><span class="name">millisecond </span></li><li><strong>@param: </strong><span class="types"> {string} </span><span class="name">name </span></li><li><strong>@param: </strong><span class="types"> {number} </span><span class="name">value </span></li><li><strong>@param: </strong><span class="types"> {string} </span><span class="name">opt_easing </span></li><li><strong>@constructor: </strong></li></ul></div><div class="description"><p>@param {Kapi.Actor} ownerActor</p></div><pre><code class="language-javascript">var KeyframeProperty = Kapi.KeyframeProperty = function (ownerActor,
-      millisecond, name, value, opt_easing) {
-    this.id = _.uniqueId('keyframeProperty_');
-    this.ownerActor = ownerActor;
-    this.millisecond = millisecond;
-    this.name = name;
-    this.value = value;
-    this.easing = opt_easing || DEFAULT_EASING;
-    this.nextProperty = null;
+<p><strong><a href="../../docs/examples/actor_export_timeline.html">Example</a></strong></p></div><pre><code class="language-javascript">Actor.prototype.exportTimeline = function ()</code></pre></div><div class="comment"><div class="label radius ctx-type">declaration</div><h1 id="KeyframeProperty">KeyframeProperty</h1><h5 class="subheader">KeyframeProperty</h5><div class="tags"><ul class="no-bullet"><li><strong>@param: </strong><span class="types"> {Kapi.Actor} </span><span class="name">ownerActor </span><span class="description">The Actor to which this KeyframeProperty is associated.</span></li><li><strong>@param: </strong><span class="types"> {number} </span><span class="name">millisecond </span><span class="description">Where in the animation this KeyframeProperty lives.</span></li><li><strong>@param: </strong><span class="types"> {string} </span><span class="name">name </span><span class="description">The property's name, such as &quot;x&quot; or &quot;opacity.&quot;</span></li><li><strong>@param: </strong><span class="types"> {number} </span><span class="name">value </span><span class="description">The value of `name`. This is the value to animate to.</span></li><li><strong>@param: </strong><span class="types"> {string=} </span><span class="name">opt_easing </span><span class="description">The easing to arrive to `value` at. Defaults to linear.</span></li><li><strong>@constructor: </strong></li></ul></div><div class="description"><p>Represents an individual component of an <code>Actor</code>'s keyframe state.  In many cases you won't need to deal with this directly, <code>Actor</code> abstracts a lot of what this Object does away for you.</p>
 
-    return this;
-  };</code></pre></div><div class="comment"><div class="label radius ctx-type">method</div><h1 id="modifyWith">modifyWith</h1><h5 class="subheader">KeyframeProperty.prototype.modifyWith()</h5><div class="tags"><ul class="no-bullet"></ul></div><div class="description"><p>@param {Object} newProperties</p></div><pre><code class="language-javascript">KeyframeProperty.prototype.modifyWith = function (newProperties) {
-    var modifiedProperties = {};
+<p><strong><a href="../../docs/examples/keyprop.html">Example</a></strong></p></div><pre><code class="language-javascript">var KeyframeProperty = Kapi.KeyframeProperty =
+      function (ownerActor, millisecond, name, value, opt_easing)</code></pre></div><div class="comment"><div class="label radius ctx-type">method</div><h1 id="modifyWith">modifyWith</h1><h5 class="subheader">KeyframeProperty.prototype.modifyWith()</h5><div class="tags"><ul class="no-bullet"><li><strong>@param: </strong><span class="types"> {Object} </span><span class="name">newProperties </span><span class="description">Contains the new `millisecond`, `easing`, or `value` values to update this KeyframeProperty with. These correspond to the formal parameters of the KeyframeProperty constructor.</span></li></ul></div><div class="description"><p>Augment a <code>KeyframeProperty</code>'s properties.</p>
 
-    _.each(['millisecond', 'easing', 'value'], function (str) {
-      modifiedProperties[str] = typeof(newProperties[str]) === 'undefined' ?
-          this[str] : newProperties[str];
-    }, this);
+<p><strong><a href="../../docs/examples/keyprop_modify_with.html">Example</a></strong></p></div><pre><code class="language-javascript">KeyframeProperty.prototype.modifyWith = function (newProperties)</code></pre></div><div class="comment"><div class="label radius ctx-type">method</div><h1 id="linkToNext">linkToNext</h1><h5 class="subheader">KeyframeProperty.prototype.linkToNext()</h5><div class="tags"><ul class="no-bullet"><li><strong>@param: </strong><span class="types"> {KeyframeProperty} </span><span class="name">nextProperty </span><span class="description">The KeyframeProperty that immediately follows this one in an animation.</span></li></ul></div><div class="description"><p>Create the reference to the next KeyframeProperty in an <code>Actor</code>'s <code>KeyframeProperty</code> track.</p>
 
-    _.extend(this, modifiedProperties);
-  };</code></pre></div><div class="comment"><div class="label radius ctx-type">method</div><h1 id="linkToNext">linkToNext</h1><h5 class="subheader">KeyframeProperty.prototype.linkToNext()</h5><div class="tags"><ul class="no-bullet"></ul></div><div class="description"><p>@param {KeyframeProperty} nextProperty</p></div><pre><code class="language-javascript">KeyframeProperty.prototype.linkToNext = function (nextProperty) {
-    this.nextProperty = nextProperty || null;
-  };</code></pre></div><div class="comment"><div class="label radius ctx-type">method</div><h1 id="getValueAt">getValueAt</h1><h5 class="subheader">KeyframeProperty.prototype.getValueAt()</h5><div class="tags"><ul class="no-bullet"><li><strong>@return: </strong><span class="types"> {number} </span></li></ul></div><div class="description"><p>@param {number} millisecond</p></div><pre><code class="language-javascript">KeyframeProperty.prototype.getValueAt = function (millisecond) {
-    var fromObj = {};
-    var toObj = {};
-    var value;
+<p><strong><a href="../../docs/examples/keyprop_link_to_next.html">Example</a></strong></p></div><pre><code class="language-javascript">KeyframeProperty.prototype.linkToNext = function (nextProperty)</code></pre></div><div class="comment"><div class="label radius ctx-type">method</div><h1 id="getValueAt">getValueAt</h1><h5 class="subheader">KeyframeProperty.prototype.getValueAt()</h5><div class="tags"><ul class="no-bullet"><li><strong>@param: </strong><span class="types"> {number} </span><span class="name">millisecond </span><span class="description">The point in the animation to compute the midpoint of the two KeyframeProperties.</span></li><li><strong>@return: </strong><span class="types"> {number} </span></li></ul></div><div class="description"><p>Calculate the midpoint between this <code>KeyframeProperty</code> and the next <code>KeyframeProperty</code> in an <code>Actor</code>'s <code>KeyframeProperty</code> track.</p>
 
-    if (this.nextProperty) {
-      fromObj[this.name] = this.value;
-      toObj[this.name] = this.nextProperty.value;
-      var delta = this.nextProperty.millisecond - this.millisecond;
-      var interpolatedPosition = (millisecond - this.millisecond) / delta;
-      value = Tweenable.interpolate(fromObj, toObj, interpolatedPosition,
-          this.nextProperty.easing)[this.name];
-    } else {
-      value =  this.value;
-    }
+<p><strong><a href="../../docs/examples/keyprop_get_value_at.html">Example</a></strong></p></div><pre><code class="language-javascript">KeyframeProperty.prototype.getValueAt = function (millisecond)</code></pre></div><div class="comment"><div class="label radius ctx-type">method</div><h1 id="exportPropertyData">exportPropertyData</h1><h5 class="subheader">KeyframeProperty.prototype.exportPropertyData()</h5><div class="tags"><ul class="no-bullet"><li><strong>@return: </strong><span class="types"> {Object} </span></li></ul></div><div class="description"><p>Export a reference-less dump of this KeyframeProperty's state data.</p>
 
-    return value;
-  };</code></pre></div><div class="comment"><div class="label radius ctx-type">method</div><h1 id="exportPropertyData">exportPropertyData</h1><h5 class="subheader">KeyframeProperty.prototype.exportPropertyData()</h5><div class="tags"><ul class="no-bullet"></ul></div><div class="description"><p>@return {Object}</p></div><pre><code class="language-javascript">KeyframeProperty.prototype.exportPropertyData = function () {
-    return {
-     'id': this.id
-     ,'millisecond': this.millisecond
-     ,'name': this.name
-     ,'value': this.value
-     ,'easing': this.easing
-    };
-  };
-
-};</code></pre></div><div class="comment"><div class="label radius ctx-type">function</div><h1 id="rekapiCanvasContext">rekapiCanvasContext</h1><h5 class="subheader">rekapiCanvasContext()</h5><div class="tags"><ul class="no-bullet"></ul></div><div class="description"><p>lobal fireEvent: true</p></div><pre><code class="language-javascript">var rekapiCanvasContext = function (context, _) {
+<p><strong><a href="../../docs/examples/keyprop_export_property_data.html">Example</a></strong></p></div><pre><code class="language-javascript">KeyframeProperty.prototype.exportPropertyData = function ()</code></pre></div><div class="comment"><div class="label radius ctx-type">function</div><h1 id="rekapiCanvasContext">rekapiCanvasContext</h1><h5 class="subheader">rekapiCanvasContext()</h5><div class="tags"><ul class="no-bullet"></ul></div><div class="description"><p>lobal fireEvent: true</p></div><pre><code class="language-javascript">var rekapiCanvasContext = function (context, _) {
 
   'use strict';
 

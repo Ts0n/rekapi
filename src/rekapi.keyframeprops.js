@@ -7,15 +7,18 @@ var rekapiKeyframeProperty = function (context, _, Tweenable) {
 
 
   /**
-   * @param {Kapi.Actor} ownerActor
-   * @param {number} millisecond
-   * @param {string} name
-   * @param {number} value
-   * @param {string} opt_easing
+   * Represents an individual component of an `Actor`'s keyframe state.  In many cases you won't need to deal with this directly, `Actor` abstracts a lot of what this Object does away for you.
+   *
+   * __[Example](../../docs/examples/keyprop.html)__
+   * @param {Kapi.Actor} ownerActor The Actor to which this KeyframeProperty is associated.
+   * @param {number} millisecond Where in the animation this KeyframeProperty lives.
+   * @param {string} name The property's name, such as "x" or "opacity."
+   * @param {number} value The value of `name`.  This is the value to animate to.
+   * @param {string=} opt_easing The easing to arrive to `value` at.  Defaults to linear.
    * @constructor
    */
-  var KeyframeProperty = Kapi.KeyframeProperty = function (ownerActor,
-      millisecond, name, value, opt_easing) {
+  var KeyframeProperty = Kapi.KeyframeProperty =
+      function (ownerActor, millisecond, name, value, opt_easing) /*!*/ {
     this.id = _.uniqueId('keyframeProperty_');
     this.ownerActor = ownerActor;
     this.millisecond = millisecond;
@@ -29,9 +32,12 @@ var rekapiKeyframeProperty = function (context, _, Tweenable) {
 
 
   /**
-   * @param {Object} newProperties
+   * Augment a `KeyframeProperty`'s properties.
+   *
+   * __[Example](../../docs/examples/keyprop_modify_with.html)__
+   * @param {Object} newProperties Contains the new `millisecond`, `easing`, or `value` values to update this KeyframeProperty with.  These correspond to the formal parameters of the KeyframeProperty constructor.
    */
-  KeyframeProperty.prototype.modifyWith = function (newProperties) {
+  KeyframeProperty.prototype.modifyWith = function (newProperties) /*!*/ {
     var modifiedProperties = {};
 
     _.each(['millisecond', 'easing', 'value'], function (str) {
@@ -44,18 +50,24 @@ var rekapiKeyframeProperty = function (context, _, Tweenable) {
 
 
   /**
-   * @param {KeyframeProperty} nextProperty
+   * Create the reference to the next KeyframeProperty in an `Actor`'s `KeyframeProperty` track.
+   *
+   * __[Example](../../docs/examples/keyprop_link_to_next.html)__
+   * @param {KeyframeProperty} nextProperty The KeyframeProperty that immediately follows this one in an animation.
    */
-  KeyframeProperty.prototype.linkToNext = function (nextProperty) {
+  KeyframeProperty.prototype.linkToNext = function (nextProperty) /*!*/ {
     this.nextProperty = nextProperty || null;
   };
 
 
   /**
-   * @param {number} millisecond
+   * Calculate the midpoint between this `KeyframeProperty` and the next `KeyframeProperty` in an `Actor`'s `KeyframeProperty` track.
+   *
+   * __[Example](../../docs/examples/keyprop_get_value_at.html)__
+   * @param {number} millisecond The point in the animation to compute the midpoint of the two KeyframeProperties.
    * @return {number}
    */
-  KeyframeProperty.prototype.getValueAt = function (millisecond) {
+  KeyframeProperty.prototype.getValueAt = function (millisecond) /*!*/ {
     var fromObj = {};
     var toObj = {};
     var value;
@@ -76,9 +88,12 @@ var rekapiKeyframeProperty = function (context, _, Tweenable) {
 
 
   /**
+   * Export a reference-less dump of this KeyframeProperty's state data.
+   *
+   * __[Example](../../docs/examples/keyprop_export_property_data.html)__
    * @return {Object}
    */
-  KeyframeProperty.prototype.exportPropertyData = function () {
+  KeyframeProperty.prototype.exportPropertyData = function () /*!*/ {
     return {
      'id': this.id
      ,'millisecond': this.millisecond
