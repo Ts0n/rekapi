@@ -25,7 +25,7 @@ var rekapiDOM = function (context, _) {
   }
 
 
-  /**
+  /*!
    * @param {string} name A transform function name
    * @return {boolean}
    */
@@ -34,7 +34,7 @@ var rekapiDOM = function (context, _) {
   }
 
 
-  /**
+  /*!
    * Builds a concatenated string of given transform property values in order.
    *
    * @param {Array.<string>} orderedFunctions Array of ordered transform
@@ -56,7 +56,7 @@ var rekapiDOM = function (context, _) {
   }
 
 
-  /**
+  /*!
    * Sets value for all vendor prefixed transform properties on a given context
    *
    * @param {Object} context The actor's DOM context
@@ -70,10 +70,70 @@ var rekapiDOM = function (context, _) {
 
 
   /**
+   * `Kapi.DOMActor` is a subclass of `Kapi.Actor`.  All methods of the `Kapi.Actor` prototype are available to `Kapi.DOMActor`.  Instantiate a `Kapi.DOMActor` with an `HTMLElement`, and then add it to the animation:
+   *
+   * ```
+   * var actor = new Kapi.DOMActor(document.getElementById('actor'));
+   *
+   * kapi.addActor(actor);
+   * ```
+   *
+   * Now you can keyframe `actor` like you would any Actor.
+   *
+   * ```
+   * actor
+   *   .keyframe(0, {
+   *     'left': '0px'
+   *     ,'top': '0px'
+   *   })
+   *   .keyframe(1500, {
+   *     'left': '200px'
+   *     ,'top': '200px'
+   *   }, 'easeOutExpo');
+   *
+   * kapi.play();
+   * ```
+   *
+   * ## Transforms
+   *
+   * `DOMActor` supports CSS3 transform functions as keyframe properties. Here is an
+   * example:
+   *
+   * ```
+   * actor
+   *   .keyframe(0, {
+   *     'translateX': '0px'
+   *     ,'translateY': '0px'
+   *     ,'rotate': '0deg'
+   *   })
+   *   .keyframe(1500, {
+   *     'translateX': '200px'
+   *     ,'translateY': '200px'
+   *     ,'rotate': '90deg'
+   *   }, 'easeOutExpo');
+   * ```
+   *
+   * The list of supported functions is: `translateX`, `translateY`, `scale`, `scaleX`, `scaleY`, `rotate`, `skewX`, `skewY`.
+   *
+   * Internally, this builds a CSS3 `transform` rule applied to the DOM node on each animation tick.
+   *
+   * Typically, when writing a `transform` rule, it is necessary to write the same rule multiple times, in order to support the vendor prefixes for all of the browser rendering engines. The DOM extension takes care of the cross browser inconsistencies.
+   *
+   * You can also use the `transform` property directly:
+   *
+   * ```
+   * actor
+   *   .keyframe(0, {
+   *     'transform': 'translateX(0px) translateY(0px) rotate(0deg)'
+   *   })
+   *   .keyframe(1500, {
+   *     'transform': 'translateX(200px) translateY(200px) rotate(90deg)'
+   *   }, 'easeOutExpo');
+   * ```
    * @param {HTMLElement} element
    * @constructor
    */
-  Kapi.DOMActor = function (element) {
+  Kapi.DOMActor = function (element) /*!*/ {
     Kapi.Actor.call(this);
     this._context = element;
     var className = this.getCSSName();
@@ -100,9 +160,10 @@ var rekapiDOM = function (context, _) {
   Kapi.DOMActor.prototype = new DOMActorMethods();
 
 
-  /**
+  /*!
    * @param {HTMLElement} context
    * @param {Object} state
+   * @override
    */
   DOMActorMethods.prototype.update = function (context, state) {
     var propertyNames = _.keys(state);
@@ -127,6 +188,7 @@ var rekapiDOM = function (context, _) {
   };
 
 
+  // TODO:  Make this a private method.
   DOMActorMethods.prototype.teardown = function (context, state) {
     var classList = this._context.className.match(/\S+/g);
     var sanitizedClassList = _.without(classList, this.getCSSName());
@@ -135,9 +197,10 @@ var rekapiDOM = function (context, _) {
 
 
   /**
+   * This can be useful when used with [toCSS](#toCSS).  You might not ever need to use this directly, as the class is attached to an element when you create a `DOMActor` from said element.
    * @return {string}
    */
-  DOMActorMethods.prototype.getCSSName = function () {
+  DOMActorMethods.prototype.getCSSName = function () /*!*/ {
     return 'actor-' + this.id;
   };
 
@@ -148,7 +211,9 @@ var rekapiDOM = function (context, _) {
    * @param {Array} orderedFunctions The Array of transform function names
    * @return {Kapi}
    */
-  DOMActorMethods.prototype.setTransformOrder = function (orderedFunctions) {
+  DOMActorMethods.prototype.setTransformOrder = function (orderedFunctions)
+    /*!*/ {
+    // TODO: Document this better...
     var unknownFunctions = _.reject(orderedFunctions, isTransformFunction);
 
     if (unknownFunctions.length) {

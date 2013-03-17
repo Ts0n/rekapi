@@ -171,7 +171,7 @@ var rekapiActor = function (context, _, Tweenable) {
    * - __update__ (_Function_): A function that gets called every time that the `Actor`'s state is updated. It receives two parameters: A reference to the `Actor`'s context and an Object containing the current state properties.
    * - __teardown__ (_Function_): A function that gets called when the `Actor` is removed from the animation (with `removeActor()`).
    *
-   * `Kapi.Actor` does _not_ render to any context.  It is a base class.  Use the [`Kapi.CanvasActor`](../ext/canvas) [`Kapi.DOMActor`](../ext/dom) subclasses to render to the screen.
+   * `Kapi.Actor` does _not_ render to any context.  It is a base class.  Use the [`Kapi.CanvasActor`](#CanvasActor) [`Kapi.DOMActor`](#DOMActor) subclasses to render to the screen.
    *
    * __[Example](../../docs/examples/actor.html)__
    * @param {Object} opt_config
@@ -277,8 +277,7 @@ Keyframe `1000` will have a `y` of `50`, and an `x` of `100`, because `x` was in
    * @param {string|Object} easing
    * @return {Kapi.Actor}
    */
-  Actor.prototype.keyframe =
-      function keyframe (when, position, opt_easing) /*!*/ {
+  Actor.prototype.keyframe = function keyframe (when, position, opt_easing) /*!*/ {
     var originalEasingString;
 
     // TODO:  The opt_easing logic seems way overcomplicated, it's probably out
@@ -348,8 +347,7 @@ Keyframe `1000` will have a `y` of `50`, and an `x` of `100`, because `x` was in
    * @param {Object} newProperties The properties to augment the KeyframeProperty with
    * @return {Kapi.Actor}
    */
-  Actor.prototype.modifyKeyframeProperty =
-      function (property, index, newProperties) /*!*/ {
+  Actor.prototype.modifyKeyframeProperty = function (property, index, newProperties) /*!*/ {
     if (this._propertyTracks[property]
         && this._propertyTracks[property][index]) {
       this._propertyTracks[property][index].modifyWith(newProperties);
@@ -573,8 +571,8 @@ Keyframe `1000` will have a `y` of `50`, and an `x` of `100`, because `x` was in
    * @param {Object} opt_easingModification
    * @return {Kapi.Actor}
    */
-  Actor.prototype.modifyKeyframe =
-      function (when, stateModification, opt_easingModification) /*!*/ {
+  Actor.prototype.modifyKeyframe =  function (when, stateModification, opt_easingModification)
+        /*!*/ {
     opt_easingModification = opt_easingModification || {};
 
     _.each(this._propertyTracks, function (propertyTrack, trackName) {
