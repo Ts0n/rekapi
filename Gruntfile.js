@@ -163,17 +163,30 @@ module.exports = function(grunt) {
       fs.mkdirSync(exportToPath);
     }
 
-    var child = exec(
-      'dox-foundation -t Rekapi < dist/rekapi.js > '
-        + exportToPath + 'index.html',
+    var modules = [
+      { src: 'src/rekapi.core.js', dest: 'index.html', header: 'Rekapi - Core' },
+      { src: 'src/rekapi.actor.js', dest: 'actor.html', header: 'Rekapi - Actor' },
+      { src: 'src/rekapi.keyframeprops.js', dest: 'keyframeprops.html', header: 'Rekapi - Keyframe Properties' },
+      { src: 'ext/canvas/rekapi.canvas.context.js', dest: 'canvas.context.html', header: 'Rekapi - Canvas Renderer' },
+      { src: 'ext/canvas/rekapi.canvas.actor.js', dest: 'canvas.actor.html', header: 'Rekapi - Canvas Actor' },
+      { src: 'ext/dom/rekapi.dom.actor.js', dest: 'dom.actor.html', header: 'Rekapi - DOM Actor' },
+      { src: 'ext/to-css/rekapi.to-css.js', dest: 'to-css.html', header: 'Rekapi - Export to CSS @keyframes' }
+    ];
 
-      function (error, stdout, stderr) {
-        console.log('stdout: ' + stdout);
-        console.log('stderr: ' + stderr);
-        if (error !== null) {
-          console.log('exec error: ' + error);
-        }
-    });
+    function generate (module) {
+      var child = exec(
+        'dox-foundation -t "' + module.header +  '" < ' + module.src + ' > ' + exportToPath + module.dest,
+
+        function (error, stdout, stderr) {
+          console.log('stdout: ' + stdout);
+          console.log('stderr: ' + stderr);
+          if (error !== null) {
+            console.log('exec error: ' + error);
+          }
+      });
+    }
+
+    modules.forEach(generate);
 
   });
 
