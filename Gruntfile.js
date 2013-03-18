@@ -164,7 +164,8 @@ module.exports = function(grunt) {
     }
 
     var modules = [
-      { src: 'src/rekapi.core.js', dest: 'index.html', header: 'Rekapi - Core' },
+      { src: 'src/rekapi.intro.js', dest: 'index.html', header: 'Rekapi' },
+      { src: 'src/rekapi.core.js', dest: 'core.html', header: 'Rekapi - Core' },
       { src: 'src/rekapi.actor.js', dest: 'actor.html', header: 'Rekapi - Actor' },
       { src: 'src/rekapi.keyframeprops.js', dest: 'keyframeprops.html', header: 'Rekapi - Keyframe Properties' },
       { src: 'ext/canvas/rekapi.canvas.context.js', dest: 'canvas.context.html', header: 'Rekapi - Canvas Renderer' },

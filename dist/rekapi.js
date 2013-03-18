@@ -1,4 +1,4 @@
-/*! Rekapi - v0.13.10 - 2013-03-16 - http://rekapi.com */
+/*! Rekapi - v0.13.10 - 2013-03-17 - http://rekapi.com */
 /*!
  * Rekapi - Rewritten Kapi.
  * https://github.com/jeremyckahn/rekapi
@@ -11,6 +11,17 @@
  * MIT License.  This code free to use, modify, distribute and enjoy.
  */
 
+/**
+ * Rekapi is divided up into several modules.
+ *
+ * - [Core](core.html): Controls the flow of an animation.
+ * - [Actor](actor.html): Controls an individual component of an animation.
+ * - [Keyframe Properties](keyframeprops.html): Helper Object for Actors.
+ * - [Canvas Renderer](canvas.context.html): Controls the rendering of a `<canvas>`-based animation.
+ * - [Canvas Actor](canvas.actor.html): Actor subclass for rendering to a `<canvas>`.
+ * - [DOM Actor](dom.actor.html): Actor subclass for rendering to the DOM.
+ * - [Export to CSS @keyframes](to-css.html): Improved performance for modern browsers.
+ */ /*!*/
 ;(function (global) {
 
 // A hack for UglifyJS defines
@@ -2112,7 +2123,7 @@ var rekapiToCSS = function (context, _) {
   //
 
   /**
-   * Rekapi can export your animations as CSS `@keyframes` for improved rendering performance.  The to-css extension is a part of the standard build, but you can safely omit it from custom builds if you don't need it.  This extension depends on the `rekapi.dom.js` extension.
+   * Rekapi can export your animations as CSS `@keyframes` with `toCSS` for improved rendering performance.  `toCSS` depends on the `rekapi.dom.js` extension.
    *
    * Advantages of using CSS `@keyframes` over traditional JavaScript animations:
    *
@@ -2152,7 +2163,7 @@ var rekapiToCSS = function (context, _) {
    * document.head.appendChild(style);
    * ```
    *
-   * For a working example of this method, take a look at the source for `ext/to-css/sandbox.html`. [Live demo](http://rekapi.com/ext/to-css/sandbox.html).
+   * For a working example of this method, take a look at [`ext/to-css/sandbox.html`](../../ext/to-css/sandbox.html).
    *
    * ## `opts`
    *
@@ -2168,6 +2179,7 @@ var rekapiToCSS = function (context, _) {
    *  - __name__ _(string)_: Define a custom name for your animation.  This becomes the class name targeted in the generated CSS selector, and also the name of the `@keyframes` rule that is generated.  Note that this does not match the CSS class that is automatically added to the `Kapi.DOMActor` DOM element, so you will have to add that yourself.
    *
    * @param {Object} opts
+   * @return {string}
    */
   Kapi.prototype.toCSS = function (opts) /*!*/ {
     opts = opts || {};
@@ -2182,9 +2194,10 @@ var rekapiToCSS = function (context, _) {
   };
 
 
-  /**
+  /*!
    * Exports the CSS `@keyframes` for an individual Actor.
    * @param {Object} opts Same as opts for Kapi.prototype.toCSS.
+   * @return {string}
    */
   Kapi.Actor.prototype.toCSS = function (opts) /*!*/ {
     opts = opts || {};
